@@ -18,7 +18,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     function setUp() {
         $_SERVER['REQUEST_URI'] = '/';
-        $_SERVER['SCRIPT_NAME'] = '/index.php';
+        $_SERVER['SCRIPT_NAME'] = '/home.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
         $_SERVER['REMOTE_ADDR'] = '8.8.8.8';
@@ -47,7 +47,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     }
 
     function testSubdirectory() {
-        $_SERVER['SCRIPT_NAME'] = '/subdir/index.php';
+        $_SERVER['SCRIPT_NAME'] = '/subdir/home.php';
 
         $request = new \flight\net\Request();
 

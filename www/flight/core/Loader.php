@@ -9,7 +9,7 @@
 namespace flight\core;
 
 /**
- * The Loader class is responsible for loading objects. It maintains
+ * The Loader class is responsible for loading classes. It maintains
  * a list of reusable class instances and can generate a new class
  * instances with custom initialization parameters. It also performs
  * class autoloading.
