@@ -17,9 +17,9 @@
 <h1>Hello Roland!</h1>
 <h4>Attempting MySQL connection from php...</h4>
 <?php
-$host = 'mysql';
-$user = 'root';
-$pass = 'root';
+$host = 'db';
+$user = 'user';
+$pass = 'pwd';
 $conn = new mysqli($host, $user, $pass);
 
 if ($conn->connect_error) {
