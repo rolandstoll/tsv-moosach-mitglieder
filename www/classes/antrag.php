@@ -28,7 +28,18 @@ class antrag
                 'Neuantrag' => '#'
             )
         );
-        $body = array();
+        $body = array(
+            'hauptverein' => array(
+                'beitrag' => array(
+                    'erwachsener' => 52,
+                    'jugend' => 25,
+                    'kind' => 0
+                )
+            ),
+            'fussball' => array(
+                'beitrag' => array()
+            )
+        );
 
         // page title
         \Flight::view()->set('head_title', $page_title);

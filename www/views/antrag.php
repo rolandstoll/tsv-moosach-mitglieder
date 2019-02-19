@@ -1,3 +1,10 @@
+<script>
+    var hauptvereinBeitragErwachsener = <?= $hauptverein['beitrag']['erwachsener']; ?>;
+    var hauptvereinBeitragJugend = <?= $hauptverein['beitrag']['jugend']; ?>;
+    var hauptvereinBeitragKind = <?= $hauptverein['beitrag']['kind']; ?>;
+
+</script>
+
 <div class="row p-3">
     <form method="POST" class="needs-validation col-md" novalidate>
         <div class="form-row">
@@ -17,14 +24,18 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-md-2 mb-2">
+            <div class="col-md-3 mb-2">
                 <label for="geburtsdatum">Geburtsdatum</label>
                 <input type="date" class="form-control" id="geburtsdatum" required>
                 <div class="invalid-feedback">
                     Bitte ein Geburtsdatum angeben!
                 </div>
             </div>
-            <div class="col-md-6 mb-2">
+            <div class="col-md-1 mb-2">
+                <label for="alter">Alter</label>
+                <input type="text" class="form-control" id="alter" readonly>
+            </div>
+            <div class="col-md-4 mb-2">
                 <label for="geburtsort">Geburtsort</label>
                 <input type="text" class="form-control" id="geburtsort" placeholder="Geburtsort" required>
                 <div class="invalid-feedback">
@@ -142,11 +153,17 @@
             </div>
         </div>
 
-        <div id="hauptvereinAlert" class="alert alert-warning mt-3" role="alert" style="display: none;">
+        <div id="hauptvereinPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">HAUPTVEREIN</div>
+        <div id="hauptvereinPanel" class="form-row">
+            <div class="col-md-10 mb-2"><h6>Jahresbeitrag</h6></div>
+            <div id="hauptvereinBeitrag" class="col-md-2 mb-2 text-right"><h4>---</h4></div>
+        </div>
+        <div id="hauptvereinAlert" class="alert alert-warning mt-3" role="alert">
             <h5>Achtung!</h5>
-            Jede Mitgliedschaft beim TSVM basiert auf der Mitgliedschaft im Hauptverein. Eine Mitgliedschaft in einer Abteilung OHNE Hauptverein ist nicht möglich!<br>
+            Jede Mitgliedschaft beim TSV Moosach-Hartmannshofen basiert auf der <strong>Mitgliedschaft im Hauptverein</strong>.
+            Eine Mitgliedschaft in einer Abteilung OHNE Hauptverein ist nicht möglich!<br>
             Es können beliebig viele Abteilungen zu einer Mitgliedschaft beim Hauptverein dazu gebucht werden.<br>
-            Wenn Sie bereits Mitglied beim TSVM sind und für eine weitere Abteilung anmelden möchten, können sie den Hauptverein weglassen.
+            Wenn Sie bereits Mitglied beim TSV Moosach-Hartmannshofen sind und sich für eine weitere Abteilung anmelden möchten, können Sie den Hauptverein weglassen.
         </div>
 
         <div id="fussballPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">ABTEILUNG FUSSBALL</div>
