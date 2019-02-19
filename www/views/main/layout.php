@@ -12,12 +12,16 @@
 
     <!-- Custom styles -->
     <link href="css/custom.css" rel="stylesheet">
+
+    <!-- fonts -->
+    <link rel='stylesheet' id='cb-font-stylesheet-css'  href='//fonts.googleapis.com/css?family=Oswald%3A400%2C700%2C400italic%7CDroid+Sans%3A400%2C700%2C400italic&#038;ver=5.5.4' type='text/css' media='all' />
 </head>
 <body>
 
 <div class="container shadow-lg">
     <?php echo $header_content; ?>
     <?php echo $body_content; ?>
+    <?php echo $footer_content; ?>
 </div>
 
 <!-- Optional JavaScript -->
