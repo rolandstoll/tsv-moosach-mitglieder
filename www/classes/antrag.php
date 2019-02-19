@@ -20,13 +20,21 @@ class antrag
 
         $template = 'antrag';
         $page_title = 'TSVM MMS Neuantrag';
-        $body = array('title' => 'TSVM MMS Neuantrag');
+        $header = array(
+            'title' => 'TSVM MMS Neuantrag',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Mitgliedschaft' => '#',
+                'Neuantrag' => '#'
+            )
+        );
+        $body = array();
 
         // page title
         \Flight::view()->set('head_title', $page_title);
 
         // final render
-        \Flight::render('main/header', array(), 'header_content');
+        \Flight::render('main/header', $header, 'header_content');
         \Flight::render($template, $body, 'body_content');
         \Flight::render('main/footer', array(), 'footer_content');
         \Flight::render('main/layout');
@@ -37,7 +45,15 @@ class antrag
 
         $template = 'antrag_post';
         $page_title = 'TSVM MMS Neuantrag';
-        $body = array('title' => 'TSVM MMS Neuantrag');
+        $header = array(
+            'title' => 'TSVM MMS Neuantrag',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Mitgliedschaft' => '#',
+                'Neuantrag' => '#'
+            )
+        );
+        $body = array();
         $data = \Flight::request()->getBody();
 
         // page title
@@ -45,7 +61,7 @@ class antrag
         \Flight::view()->set('data', $data);
 
         // final render
-        \Flight::render('main/header', array(), 'header_content');
+        \Flight::render('main/header', $header, 'header_content');
         \Flight::render($template, $body, 'body_content');
         \Flight::render('main/footer', array(), 'footer_content');
         \Flight::render('main/layout');

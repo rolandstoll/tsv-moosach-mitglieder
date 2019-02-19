@@ -1,17 +1,3 @@
-<div id="breadcrumb" class="row bg-light">
-    <div class="col-md-4">
-        <a href="http://www.tsvmoosach.de">Home</a>
-        <i class="fa fa-angle-right">&gt;</i>
-        <a href="#">Mitgliedschaft</a>
-        <i class="fa fa-angle-right">&gt;</i>
-        <a href="#">Neuantrag</a>
-    </div>
-</div>
-
-<div id="title" class="row bg-light border-bottom-green">
-    <p class="col-md-12 text-center"><?= $title ?></p>
-</div>
-
 <div class="row p-3">
     <form method="POST" class="needs-validation col-md" novalidate>
         <div class="form-row">

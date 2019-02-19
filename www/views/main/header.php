@@ -42,3 +42,20 @@
         <a href="http://www.tsvmoosach.de/anfahrt/">Anfahrt</a>
     </div>
 </div>
+
+<div id="breadcrumb" class="row bg-light">
+    <div class="col-md-4">
+        <?php $i = 0; ?>
+        <?php foreach ($breadcrumb as $key => $val) { ?>
+            <?php $i++; ?>
+            <a href="<?= $val ?>"><?= $key ?></a>
+            <?php if(count($breadcrumb) > $i ) { ?>
+                <i class="fa fa-angle-right">&gt;</i>
+            <?php }?>
+        <?php } ?>
+    </div>
+</div>
+
+<div id="title" class="row bg-light border-bottom-green">
+    <p class="col-md-12 text-center"><?= $title ?></p>
+</div>

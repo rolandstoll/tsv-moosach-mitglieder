@@ -19,13 +19,21 @@ class home
     {
         $template = 'home';
         $page_title = 'TSVM MMS';
-        $body = array('title' => 'TSVM MMS');
+        $header = array(
+            'title' => 'TSVM MMS',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Mitgliedschaft' => '#',
+                'Neuantrag' => '#'
+            )
+        );
+        $body = array();
 
         // page title
         \Flight::view()->set('head_title', $page_title);
 
         // final render
-        \Flight::render('main/header', array(), 'header_content');
+        \Flight::render('main/header', $header, 'header_content');
         \Flight::render($template, $body, 'body_content');
         \Flight::render('main/footer', array(), 'footer_content');
         \Flight::render('main/layout');
