@@ -2,10 +2,11 @@
     <div class="col-md-4">
         <a href="http://www.tsvmoosach.de">Home</a>
         <i class="fa fa-angle-right">&gt;</i>
-        <a href="http://www.tsvmoosach.de/der-verein/">Der Verein</a>
+        <a href="#">Mitgliedschaft</a>
+        <i class="fa fa-angle-right">&gt;</i>
+        <a href="#">Neuantrag</a>
     </div>
 </div>
-
 
 <div id="title" class="row bg-light border-bottom-green">
     <p class="col-md-12 text-center"><?= $title ?></p>
@@ -89,14 +90,14 @@
         </div>
         <div class="form-row">
             <div class="col-md-8 mb-2">
-                <label for="stadt">E-Mail</label>
+                <label for="email">E-Mail</label>
                 <input type="email" class="form-control" id="email" placeholder="E-Mail" required>
                 <div class="invalid-feedback">
                     Bitte eine gültige E-Mail-Adresse angeben.
                 </div>
             </div>
         </div>
-        <div class="form-row col-md-12 bg-light font-weight-bold p-2 mb-1 mt-3">ABTEILUNGEN</div>
+        <div class="form-row col-md-12 bg-green font-weight-bold p-2 mb-1 mt-3">ABTEILUNGEN</div>
         <div class="form-row col-md-12 font-weight-bold mb-2">
             Ich möchte als Mitglied in folgender/n Abteilung(en) beitreten:
         </div>
@@ -142,7 +143,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-row col-md-12 bg-light font-weight-bold p-2 mb-1 mt-3">ZUSTIMMUNG</div>
+        <div class="form-row col-md-12 bg-danger font-weight-bold p-2 mb-1 mt-3">ZUSTIMMUNG</div>
         <div class="form-group">
             <div class="custom-control custom-switch">
                 <input class="custom-control-input" type="checkbox" value="" id="agreement" required>
@@ -154,8 +155,50 @@
                 </div>
             </div>
         </div>
+
+        <div id="hauptvereinAlert" class="alert alert-warning mt-3" role="alert" style="display: none;">
+            <h5>Achtung!</h5>
+            Jede Mitgliedschaft beim TSVM basiert auf der Mitgliedschaft im Hauptverein. Eine Mitgliedschaft in einer Abteilung OHNE Hauptverein ist nicht möglich!<br>
+            Es können beliebig viele Abteilungen zu einer Mitgliedschaft beim Hauptverein dazu gebucht werden.<br>
+            Wenn Sie bereits Mitglied beim TSVM sind und für eine weitere Abteilung anmelden möchten, können sie den Hauptverein weglassen.
+        </div>
+
+        <div id="fussballPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">ABTEILUNG FUSSBALL</div>
+        <div id="fussballPanel" class="form-row">
+            <div class="col-md-8 mb-2">
+                <label for="letzter_verein">Letzter Verein</label>
+                <input type="email" class="form-control" id="letzter_verein" placeholder="Letzter Verein">
+            </div>
+            <div class="col-md-8 mb-2">
+                <label for="passnummer">Passnummer</label>
+                <input type="email" class="form-control" id="passnummer" placeholder="Passnummer">
+            </div>
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" value="" id="agreement_fussball">
+                <label class="custom-control-label" for="agreement_fussball">
+                    Der Spieler / Vertretungsberechtigte hat die Zustimmung zur Nutzung der Adressdaten des Spielers für
+                    Marketingzwecke, insbesondere für Angebote des DFB, seiner Verbände sowie Partner erteilt.
+                </label>
+            </div>
+        </div>
+
+        <div id="tennisPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">ABTEILUNG TENNIS</div>
+        <div id="tennisPanel" class="form-row">
+            <div class="col-md-8 mb-2">
+                Jahresbeitrag Erwachsene aktiv: 252,00 € (incl. 52,00 € Hauptverein)<br>
+                Jahresbeitrag Studenten: 192,00 € (incl. 52,00 € Hauptverein)<br>
+                Jahresbeitrag Jugend: 120,00 € (incl. 20,00 € Hauptverein)<br>
+                Jahresbeitrag Erwachsene passiv: 78,00 € (incl. 52,00 € Hauptverein)<br>
+                <br>
+                Eine Aufnahmegebühr wird nicht erhoben.<br>
+                <br>
+                Der fällige Betrag wird jährlich über das SEPA Basis Lastschriftmandat (siehe oben) abgebucht.<br>
+            </div>
+        </div>
+
         <button class="btn btn-primary" type="submit">Antrag absenden</button>
     </form>
+
 
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
