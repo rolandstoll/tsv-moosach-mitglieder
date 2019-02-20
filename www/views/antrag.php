@@ -1,7 +1,35 @@
+<?php setlocale(LC_TIME, "de_DE.utf8"); ?>
+
 <script>
     var hauptvereinBeitragErwachsener = <?= $hauptverein['beitrag']['erwachsener']; ?>;
     var hauptvereinBeitragJugend = <?= $hauptverein['beitrag']['jugend']; ?>;
     var hauptvereinBeitragKind = <?= $hauptverein['beitrag']['kind']; ?>;
+
+    var fussballErwachsener1 = <?= $fussball['beitrag']['erwachsener'][1]?>;
+    var fussballErwachsener2 = <?= $fussball['beitrag']['erwachsener'][2]?>;
+    var fussballErwachsener3 = <?= $fussball['beitrag']['erwachsener'][3]?>;
+    var fussballErwachsener4 = <?= $fussball['beitrag']['erwachsener'][4]?>;
+    var fussballErwachsener5 = <?= $fussball['beitrag']['erwachsener'][5]?>;
+    var fussballErwachsener6 = <?= $fussball['beitrag']['erwachsener'][6]?>;
+    var fussballErwachsener7 = <?= $fussball['beitrag']['erwachsener'][7]?>;
+    var fussballErwachsener8 = <?= $fussball['beitrag']['erwachsener'][8]?>;
+    var fussballErwachsener9 = <?= $fussball['beitrag']['erwachsener'][9]?>;
+    var fussballErwachsener10 = <?= $fussball['beitrag']['erwachsener'][10]?>;
+    var fussballErwachsener11 = <?= $fussball['beitrag']['erwachsener'][11]?>;
+    var fussballErwachsener12 = <?= $fussball['beitrag']['erwachsener'][12]?>;
+
+    var fussballJugend1 = <?= $fussball['beitrag']['jugend'][1]?>;
+    var fussballJugend2 = <?= $fussball['beitrag']['jugend'][2]?>;
+    var fussballJugend3 = <?= $fussball['beitrag']['jugend'][3]?>;
+    var fussballJugend4 = <?= $fussball['beitrag']['jugend'][4]?>;
+    var fussballJugend5 = <?= $fussball['beitrag']['jugend'][5]?>;
+    var fussballJugend6 = <?= $fussball['beitrag']['jugend'][6]?>;
+    var fussballJugend7 = <?= $fussball['beitrag']['jugend'][7]?>;
+    var fussballJugend8 = <?= $fussball['beitrag']['jugend'][8]?>;
+    var fussballJugend9 = <?= $fussball['beitrag']['jugend'][9]?>;
+    var fussballJugend10 = <?= $fussball['beitrag']['jugend'][10]?>;
+    var fussballJugend11 = <?= $fussball['beitrag']['jugend'][11]?>;
+    var fussballJugend12 = <?= $fussball['beitrag']['jugend'][12]?>;
 
 </script>
 
@@ -94,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-row col-md-12 bg-green font-weight-bold p-2 mb-1 mt-3">ABTEILUNGEN</div>
+        <div class="form-row col-md-12 bg-light font-weight-bold p-2 mb-1 mt-3">ABTEILUNGEN</div>
         <div class="form-row col-md-12 font-weight-bold mb-2">
             Ich möchte als Mitglied in folgender/n Abteilung(en) beitreten:
         </div>
@@ -172,10 +200,30 @@
                 <label for="letzter_verein">Letzter Verein</label>
                 <input type="email" class="form-control" id="letzter_verein" placeholder="Letzter Verein">
             </div>
-            <div class="col-md-8 mb-2">
+            <div class="col-md-4 mb-2"></div>
+            <div class="col-md-4 mb-2">
                 <label for="passnummer">Passnummer</label>
                 <input type="email" class="form-control" id="passnummer" placeholder="Passnummer">
             </div>
+            <div class="col-md-4">
+                <label for="passantrag">Passantrag</label>
+                <select id="passantrag" class="form-control">
+                    <option selected>Bitte wählen...</option>
+                    <option value="Erstaustellung">Erstaustellung</option>
+                    <option value="Vereinswechsel">Vereinswechsel</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-2"></div>
+            <div class="col-md-4">
+                <label for="eintrittsdatum">Eintrittsdatum</label>
+                <select id="eintrittsdatum" class="form-control">
+                    <option selected>Bitte wählen...</option>
+                    <?php foreach ($fussball['beitrag']['erwachsener'] as $key => $val) { ?>
+                        <option value="<?= $key?>">ab 1. <?= strftime('%B', mktime(0, 0, 0, $key, 10)); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-12 mb-2"></div>
             <div class="custom-control custom-switch">
                 <input class="custom-control-input" type="checkbox" value="" id="agreement_fussball">
                 <label class="custom-control-label" for="agreement_fussball">
@@ -199,7 +247,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Antrag absenden</button>
+        <button class="btn btn-primary mt-3" type="submit">Antrag absenden</button>
     </form>
 
 

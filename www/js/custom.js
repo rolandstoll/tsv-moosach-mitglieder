@@ -30,6 +30,13 @@ $(function() {
             } else {
                 $('#hauptvereinBeitrag').html('<h4>' + hauptvereinBeitragErwachsener + '.- EUR</h4>');
             }
+
+            // fussball
+            if (age < 18 ) {
+                $('#fussballPanel').toggle(this.checked);
+            } else {
+                $('#hauptvereinBeitrag').html('<h4>' + hauptvereinBeitragErwachsener + '.- EUR</h4>');
+            }
         }
     }).change();
 })
