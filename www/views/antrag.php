@@ -196,6 +196,13 @@
 
         <div id="fussballPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">ABTEILUNG FUSSBALL</div>
         <div id="fussballPanel" class="form-row">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" value="" id="agreement_fussball">
+                <label class="custom-control-label" for="agreement_fussball">
+                    Der Spieler / Vertretungsberechtigte hat die Zustimmung zur Nutzung der Adressdaten des Spielers für
+                    Marketingzwecke, insbesondere für Angebote des DFB, seiner Verbände sowie Partner erteilt.
+                </label>
+            </div>
             <div class="col-md-8 mb-2">
                 <label for="letzter_verein">Letzter Verein</label>
                 <input type="email" class="form-control" id="letzter_verein" placeholder="Letzter Verein">
@@ -209,7 +216,7 @@
                 <label for="passantrag">Passantrag</label>
                 <select id="passantrag" class="form-control">
                     <option selected>Bitte wählen...</option>
-                    <option value="Erstaustellung">Erstaustellung</option>
+                    <option value="Erstausstellung">Erstausstellung</option>
                     <option value="Vereinswechsel">Vereinswechsel</option>
                 </select>
             </div>
@@ -224,13 +231,17 @@
                 </select>
             </div>
             <div class="col-md-12 mb-2"></div>
-            <div class="custom-control custom-switch">
-                <input class="custom-control-input" type="checkbox" value="" id="agreement_fussball">
-                <label class="custom-control-label" for="agreement_fussball">
-                    Der Spieler / Vertretungsberechtigte hat die Zustimmung zur Nutzung der Adressdaten des Spielers für
-                    Marketingzwecke, insbesondere für Angebote des DFB, seiner Verbände sowie Partner erteilt.
-                </label>
-            </div>
+            <div class="col-md-10 mt-2"><h6>Jahresbeitrag (lfd. Jahr)</h6></div>
+            <div id="fussballBeitragLfdJahr" class="col-md-2 mt-2 text-right"><h5>---</h5></div>
+            <div class="col-md-10"><h6>Aufnahmegebühr</h6></div>
+            <div id="fussballBeitragAufnahme" class="col-md-2 text-right"><h5>---</h5></div>
+            <div class="col-md-10"><h6>Passantrag</h6></div>
+            <div id="fussballBeitragPassantrag" class="col-md-2 text-right"><h5>---</h5></div>
+            <div class="col-md-10"><h5>Gesamtbetrag (lfd. Jahr)</h5></div>
+            <div id="fussballBeitragPassantrag" class="col-md-2 text-right"><h4>---</h4></div>
+            <div class="col-md-10 mt-2"><h6>Jahresbeitrag (nächstes Jahr)</h6></div>
+            <div id="fussballBeitragNaechstesJahr" class="col-md-2 mt-2 text-right"><h5>---</h5></div>
+
         </div>
 
         <div id="tennisPanelHeader" class="form-row col-md-12 bg-info font-weight-bold p-2 mb-1 mt-3">ABTEILUNG TENNIS</div>

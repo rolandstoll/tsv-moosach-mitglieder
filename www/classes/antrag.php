@@ -66,6 +66,14 @@ class antrag
                         '11' => 11,
                         '12' => 11
                     )
+                ),
+                'passantrag' => array(
+                    'erstausstellung' => 0,
+                    'vereinswechsel' => 50
+                ),
+                'aufnahmegebuehr' => array(
+                    'erwachsener' => 6,
+                    'jugend' => 6
                 )
             )
         );
