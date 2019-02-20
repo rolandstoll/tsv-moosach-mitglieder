@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: mysql
+    container_name: tsvm_mysql
     environment:
       MYSQL_ROOT_PASSWORD: roowpwd
       MYSQL_DATABASE: db
@@ -12,7 +13,7 @@ services:
       - "9906:3306"
   web:
     build: ./
-    container_name: php_web
+    container_name: tsvm_php_web
     depends_on:
       - db
     volumes:
