@@ -108,3 +108,6 @@ label {
     font-family: 'Droid Sans', sans-serif;
 }
 
+.price::after {
+    content: ".- EUR"
+}

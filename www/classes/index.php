@@ -8,7 +8,7 @@
 
 namespace classes;
 
-class home
+class index
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class home
 
     public function index()
     {
-        $template = 'home';
+        $template = 'index';
         $page_title = 'TSVM MMS';
         $header = array(
             'title' => 'TSVM MMS',
