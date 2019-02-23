@@ -1,8 +1,8 @@
 <div class="row bg-light p-3">
-    <div class="col-md-2">
+    <div id="logo" class="col-md-2">
         <a href="http://www.tsvmoosach.de/"><img src="/img/logo.png" width="140"></a>
     </div>
-    <div class="col-md-10 text-right">
+    <div id="advertising" class="col-md-10 text-right">
         <br>
         <img src="http://www.tsvmoosach.de/wp-content/uploads/2014/04/home_380x90.jpg" width="380">
     </div>

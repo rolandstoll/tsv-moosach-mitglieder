@@ -16,11 +16,15 @@
         "9": 8,
         "10": -4,
         "11": -16,
-        "12": -16
+        "12": -16,
+        "Passiv": 23
       },
       "Aufnahmegebühr": 6,
-      "PassantragErstausstellung": 0,
-      "PassantragVereinswechsel": 50
+      "Passantrag": {
+        "Erstausstellung": 0,
+        "Vereinswechsel": 50,
+        "kein Passantrag (passive Mitgliedschaft)": 0
+      }
     },
     "Tennis": {
       "Beitrag": {
@@ -30,13 +34,15 @@
       }
     },
     "Ski": {
-      "Beitrag": 25
+      "Beitrag": 25,
+      "Aufnahmegebühr": 6
     },
     "Eisstock": {
       "Beitrag": 30
     },
     "Damengymnastik": {
-      "Beitrag": 16
+      "Beitrag": 16,
+      "Aufnahmegebühr": 6
     },
     "Rückenschule": {
       "Beitrag": 0
@@ -68,8 +74,10 @@
         "12": 11
       },
       "Aufnahmegebühr": 6,
-      "PassantragErstausstellung": 0,
-      "PassantragVereinswechsel": 25
+      "Passantrag": {
+        "Erstausstellung": 0,
+        "Vereinswechsel": 25
+      }
     },
     "Tennis": {
       "Beitrag": {
@@ -77,7 +85,8 @@
       }
     },
     "Ski": {
-      "Beitrag": 3
+      "Beitrag": 3,
+      "Aufnahmegebühr": 6
     },
     "Eisstock": {
       "Beitrag": 30
@@ -94,7 +103,6 @@
     "Fitness": {
       "Beitrag": 62
     }
-
   },
   "Kind":{
     "Hauptverein": {
@@ -116,8 +124,10 @@
         "12": 11
       },
       "Aufnahmegebühr": 6,
-      "PassantragErstausstellung": 0,
-      "PassantragVereinswechsel": 25
+      "Passantrag": {
+        "Erstausstellung": 0,
+        "Vereinswechsel": 50
+      }
     },
     "Tennis": {
       "Beitrag": {
@@ -142,5 +152,16 @@
     "Fitness": {
       "Beitrag": 62
     }
+  },
+  "abteilungen": {
+    "hauptverein": "Hauptverein",
+    "fussball": "Fußball",
+    "tennis": "Tennis",
+    "ski": "Ski",
+    "eisstock": "Eisstock",
+    "damengymnastik": "Damengymnastik",
+    "rueckenschule": "Rückenschule",
+    "tischtennis": "Tischtennis",
+    "fitness": "Fitness"
   }
 }

@@ -1,5 +1,11 @@
-/* tsv moosach header*/
+/* print */
+@media print {
+    #nav1, #nav2, #breadcrumb, #footer, #footer-bottom, #progress, .needs-validation, #advertising {
+        display: none;
+    }
+}
 
+/* tsv moosach*/
 #nav1 a {
     font-family: 'Oswald', sans-serif;
     color: #fafafa;

@@ -4,11 +4,11 @@
     var age = <?= isset($data['alter']) ? $data['alter'] : 18; ?>;
 </script>
 
-<div class="row m-3">
+<div id="progress" class="row p-3">
     <div class="col-md-12 bg-light">
         <p class="lead pt-3">Vielen Dank für Ihr Interesse beim <strong>TSV Moosach-Hartmannshofen</strong>!</p>
         <p>
-            Im folgenden Formular können Sie in 4 Schritten für ein oder mehrere Abteilungen einen Antrag stellen.
+            Im folgenden Formular können Sie in 4 Schritten für ein oder mehrere Abteilungen einen Mitgliedsantrag stellen.
             Nach Absenden des Formulars auf der letzten Seite erhalten Sie in Kürze eine Bestätigungsmail mit einem entsprechenden Bestätigungslink. Erst wenn Sie auf diesen Link klicken, wird Ihr Antrag bei uns aktiv.
             Wir werden dann sobald wie möglich Ihren Antrag bearbeiten - bitte geben Sie uns dafür ein paar Tage Zeit!
         </p>
@@ -121,7 +121,7 @@
     <div class="col-md-12 bg-warning font-weight-bold p-2 mb-1 mt-3">DATENSCHUTZ / PERSÖNLICHKEITSRECHTE</div>
     <div class="form-group">
         <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" value="" id="datenschutz" name="datenschutz" required <?= ($data['datenschutz'] == true) ? 'checked=true' : ''; ?>>
+            <input class="custom-control-input" type="checkbox" value="" id="datenschutz" name="datenschutz" required <?= ($data['datenschutz'] == true) ? 'checked=checked' : ''; ?>>
             <label class="custom-control-label" for="datenschutz">
                 <strong>Hiermit kenne ich die folgende Punkte in Bezug auf Datenschutz und Persönlichkeitsrechte an:</strong><br>
                 <ol style="font-size: 12px;">

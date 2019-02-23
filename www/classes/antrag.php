@@ -10,6 +10,10 @@ namespace classes;
 
 class antrag
 {
+    /**
+     * antrag constructor.
+     * @param   array $config json config
+     */
     public function __construct($config)
     {
         session_start();
@@ -25,8 +29,18 @@ class antrag
         } else {
             $this->config = $config['Erwachsener'];
         }
+
+        $this->abteilungen = $config['abteilungen'];
+
+        $this->gesamt = 0;
+        $this->gesamtNext = 0;
+        $this->beitrag = array();
+        $this->extras = array();
     }
 
+    /**
+     *
+     */
     public function index()
     {
         $template = 'antrag_1';
@@ -51,25 +65,25 @@ class antrag
         \Flight::render('main/layout');
     }
 
+    /**
+     *
+     */
     public function post()
     {
-        $_SESSION['nachname'] = \Flight::request()->data->nachname;
-        $_SESSION['vorname'] = \Flight::request()->data->vorname;
-        $_SESSION['geburtsdatum'] = \Flight::request()->data->geburtsdatum;
-        $_SESSION['alter'] = \Flight::request()->data->alter;
-        $_SESSION['geburtsort'] = \Flight::request()->data->geburtsort;
-        $_SESSION['strasse'] = \Flight::request()->data->strasse;
-        $_SESSION['hausnr'] = \Flight::request()->data->hausnr;
-        $_SESSION['plz'] = \Flight::request()->data->plz;
-        $_SESSION['stadt'] = \Flight::request()->data->stadt;
-        $_SESSION['telefon'] = \Flight::request()->data->telefon;
-        $_SESSION['handy'] = \Flight::request()->data->handy;
-        $_SESSION['email'] = \Flight::request()->data->email;
-        $_SESSION['datenschutz'] = is_null(\Flight::request()->data->datenschutz) ? false : true;
+        foreach (\Flight::request()->data as $key => $val) {
+            if ($key == 'datenschutz') {
+                $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
+            } else {
+                $_SESSION[$key] = \Flight::request()->data->$key;
+            }
+        }
 
         \Flight::redirect('/antrag/2');
     }
 
+    /**
+     *
+     */
     public function index2()
     {
         $template = 'antrag_2';
@@ -87,6 +101,12 @@ class antrag
         \Flight::view()->set('data', $_SESSION);
         \Flight::view()->set('head_title', $page_title);
         \Flight::view()->set('config', $this->config);
+        \Flight::view()->set('abteilungen', $this->abteilungen);
+
+        // hauptverein: default = checked
+        if (!isset($_SESSION['abteilung']['hauptverein'])) {
+            $_SESSION['abteilung']['hauptverein'] = true;
+        }
 
         // final render
         \Flight::render('main/header', $header, 'header_content');
@@ -95,13 +115,36 @@ class antrag
         \Flight::render('main/layout');
     }
 
+    /**
+     *
+     */
     public function post2()
     {
-        $_SESSION['data'] = \Flight::request()->data;
+        unset($_SESSION['abteilung']);              // reset
+        unset($_SESSION['zustimmung_fussball']);    // reset
+
+        foreach (\Flight::request()->data as $key => $val) {
+            if ($val == 'on') {
+                if ($key == 'zustimmung_fussball') {
+                    $_SESSION[$key] = true;
+                } else {
+                    $_SESSION['abteilung'][$key] = true;
+                }
+            } else {
+                if (empty(\Flight::request()->data->$key)) {
+                    unset($_SESSION[$key]);
+                } else {
+                    $_SESSION[$key] = \Flight::request()->data->$key;
+                }
+            }
+        }
 
         \Flight::redirect('/antrag/3');
     }
 
+    /**
+     *
+     */
     public function index3()
     {
         session_start();
@@ -117,9 +160,16 @@ class antrag
             )
         );
 
+        $this->calculatePricesAbteilungen();
+
         // page data
         \Flight::view()->set('head_title', $page_title);
+        \Flight::view()->set('beitrag', $this->beitrag);
+        \Flight::view()->set('extras', $this->extras);
+        \Flight::view()->set('gesamt', $this->gesamt);
+        \Flight::view()->set('gesamtNext', $this->gesamtNext);
         \Flight::view()->set('data', $_SESSION);
+        \Flight::view()->set('abteilungen', $this->abteilungen);
 
         // final render
         \Flight::render('main/header', $header, 'header_content');
@@ -128,13 +178,31 @@ class antrag
         \Flight::render('main/layout');
     }
 
+    /**
+     *
+     */
     public function post3()
     {
-        $_SESSION['data'] = \Flight::request()->data;
+        unset($_SESSION['zustimmung']);    // reset
 
-        \Flight::redirect('/antrag/3');
+        foreach (\Flight::request()->data as $key => $val) {
+            if ($key == 'zustimmung') {
+                $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
+            } else {
+                if (empty(\Flight::request()->data->$key)) {
+                    unset($_SESSION[$key]);
+                } else {
+                    $_SESSION[$key] = \Flight::request()->data->$key;
+                }
+            }
+        }
+
+        \Flight::redirect('/antrag/4');
     }
 
+    /**
+     *
+     */
     public function index4()
     {
         $template = 'antrag_4';
@@ -148,14 +216,65 @@ class antrag
             )
         );
 
+        $this->calculatePricesAbteilungen();
+
         // page data
         \Flight::view()->set('head_title', $page_title);
+        \Flight::view()->set('beitrag', $this->beitrag);
+        \Flight::view()->set('extras', $this->extras);
+        \Flight::view()->set('gesamt', $this->gesamt);
+        \Flight::view()->set('gesamtNext', $this->gesamtNext);
         \Flight::view()->set('data', $_SESSION);
+        \Flight::view()->set('abteilungen', $this->abteilungen);
 
         // final render
         \Flight::render('main/header', $header, 'header_content');
         \Flight::render($template, array(), 'body_content');
         \Flight::render('main/footer', array(), 'footer_content');
         \Flight::render('main/layout');
+    }
+
+    /**
+     *
+     */
+    public function calculatePricesAbteilungen()
+    {
+        $this->beitrag = 0;
+        $this->gesamt = 0;
+        $this->gesamtNext = 0;
+        $this->extras = 0;
+
+        $this->beitrag = array();
+        $this->extras = array();
+        foreach ($_SESSION['abteilung'] as $key => $value) {
+
+            $title = $this->abteilungen[$key];
+            switch ($key) {
+                case 'fussball':
+                    $this->beitrag[$key] = $this->config[$title]['Beitrag'][$_SESSION['eintrittsdatum']] + $this->config['Fußball']['Aufnahmegebühr'] + $this->config['Fußball']['Passantrag'][$_SESSION['passantrag']];
+                    if ($_SESSION['eintrittsdatum'] == 'Passiv') {
+                        $this->gesamtNext += $this->config[$title]['Beitrag']['Passiv'] + $this->config['Fußball']['Aufnahmegebühr'] + $this->config['Fußball']['Passantrag'][$_SESSION['passantrag']];
+                    } else {
+                        $this->gesamtNext += $this->config[$title]['Beitrag'][1] + $this->config['Fußball']['Aufnahmegebühr'] + $this->config['Fußball']['Passantrag'][$_SESSION['passantrag']];
+                    }
+                    $this->extras[$key] = 'lfd. Jahr inkl. Aufnahmegebühr + Passantrag';
+                    break;
+                case 'tennis':
+                    $this->beitrag[$key] = $this->config[$title]['Beitrag'][$_SESSION['tennisTarif']];
+                    $this->gesamtNext += $this->config[$title]['Beitrag'][$_SESSION['tennisTarif']];
+                    break;
+                default:
+                    $this->beitrag[$key] = $this->config[$title]['Beitrag'];
+                    $this->gesamtNext += $this->config[$title]['Beitrag'];
+                    if ($this->config[$title]['Aufnahmegebühr']) {
+                        $this->beitrag[$key] += $this->config[$title]['Aufnahmegebühr'];
+                        $this->gesamtNext += $this->config[$title]['Aufnahmegebühr'];
+                        $this->extras[$key] = 'inkl. Aufnahmegebühr';
+                    }
+                    break;
+            }
+
+            $this->gesamt += $this->beitrag[$key];
+        }
     }
 }

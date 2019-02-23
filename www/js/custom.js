@@ -1,10 +1,16 @@
 $(function() {
 
+    var gesamtBeitrag = 0;
+    var fussballBeitragPassantrag = 0;
+    var fussballBeitragAufnahme = 0;
+    var fussballBeitragLfdJahr = 0;
+
     // get config
     var cfg = {};
     $.ajax({
         url: '/config.json',
         dataType: "json",
+        cache: false,
         success: function(data) {
 
             if(age < 6) {
@@ -14,14 +20,6 @@ $(function() {
             } else {
                 cfg = data['Erwachsener'];
             }
-
-            console.log(cfg);
-
-            var gesamtBeitrag = 0;
-            var gesamtBeitragFussball = 0;
-            var fussballBeitragPassantrag = 0;
-            var fussballBeitragAufnahme = 0;
-            var fussballBeitragLfdJahr = 0;
 
             // hauptverein
             $('#hauptverein').on("change",function() {
@@ -40,9 +38,6 @@ $(function() {
                 $('#fussballPanelHeader').toggle(this.checked);
                 $('#fussballPanel').toggle(this.checked);
 
-                $('#fussballBeitragAufnahme').children().html(cfg['Fußball']['Aufnahmegebühr']);
-                $('#fussballBeitragNaechstesJahr').children().html(cfg['Fußball']['Beitrag'][1]);
-
                 if (this.checked) {
                     $('#passantrag').prop('required', true);
                     $('#eintrittsdatum').prop('required', true);
@@ -55,32 +50,37 @@ $(function() {
                     $('#passnummerPanel').hide();
                     $('#letzterVereinPanel').hide();
                     $('#passnummer').prop('required', false);
+                    $('#passnummer').val('');
                     $('#letzterVerein').prop('required', false);
+                    $('#letzterVerein').val('');
+                    $('#zustimmung_fussball').prop('checked', false);
 
                     $('#fussballBeitragPassantrag').children().html('--');
                     $('#fussballBeitragLfdJahr').children().html('--');
                     fussballBeitragPassantrag = 0;
                     fussballBeitragAufnahme = 0;
                     fussballBeitragLfdJahr = 0;
-                    setFussballGesamt(fussballBeitragPassantrag, fussballBeitragAufnahme, fussballBeitragLfdJahr);
+                    setFussballGesamt();
                 }
             }).change();
 
             $('#passantrag').on("change", function() {
-                if (this.value == 'erstausstellung') {
-                    fussballBeitragPassantrag = cfg['Fußball']['PassantragErstausstellung'];
+                if (this.value == 'Erstausstellung') {
+                    fussballBeitragPassantrag = cfg['Fußball']['Passantrag']['Erstausstellung'];
                     $('#passnummerPanel').hide();
                     $('#letzterVereinPanel').hide();
                     $('#passnummer').prop('required', false);
                     $('#letzterVerein').prop('required', false);
-                    $('#fussballBeitragPassantrag').children().html(cfg['Fußball']['PassantragErstausstellung']);
-                } else if (this.value == 'vereinswechsel') {
-                    fussballBeitragPassantrag = cfg['Fußball']['PassantragVereinswechsel'];
+                    $('#passnummer').val('');
+                    $('#letzterVerein').val('');
+                    $('#fussballBeitragPassantrag').children().html(cfg['Fußball']['Passantrag']['Erstausstellung']);
+                } else if (this.value == 'Vereinswechsel') {
+                    fussballBeitragPassantrag = cfg['Fußball']['Passantrag']['Vereinswechsel'];
                     $('#passnummerPanel').show();
                     $('#letzterVereinPanel').show();
                     $('#passnummer').prop('required', true);
                     $('#letzterVerein').prop('required', true);
-                    $('#fussballBeitragPassantrag').children().html(cfg['Fußball']['PassantragVereinswechsel']);
+                    $('#fussballBeitragPassantrag').children().html(cfg['Fußball']['Passantrag']['Vereinswechsel']);
                 } else {
                     $('#fussballBeitragPassantrag').children().html('--');
                     $('#passnummerPanel').hide();
@@ -89,7 +89,7 @@ $(function() {
                     $('#letzterVerein').prop('required', false);
 
                 }
-                setFussballGesamt(fussballBeitragPassantrag, fussballBeitragAufnahme, fussballBeitragLfdJahr);
+                setFussballGesamt();
             }).change();
 
             $('#eintrittsdatum').on("change", function() {
@@ -100,7 +100,7 @@ $(function() {
                     fussballBeitragLfdJahr = cfg['Fußball']['Beitrag'][this.value];
                     $('#fussballBeitragLfdJahr').children().html(cfg['Fußball']['Beitrag'][this.value]);
                 }
-                setFussballGesamt(fussballBeitragPassantrag, fussballBeitragAufnahme, fussballBeitragLfdJahr);
+                setFussballGesamt();
             }).change();
 
             // tennis
@@ -126,12 +126,14 @@ $(function() {
                     $('#studentNachweis').prop('required', false);
                     $('#tennisBeitrag').children().html('--');
                 } else {
-                    var selected = $(this).find("option:selected").text();
-                    if (selected == 'Student') {
+                    if (this.value == 'Student') {
                         $('#studentNachweisPanel').show();
                         $('#studentNachweis').prop('required', true);
+                    } else {
+                        $('#studentNachweisPanel').hide();
+                        $('#studentNachweis').prop('required', false);
                     }
-                    $('#tennisBeitrag').children().html(this.value);
+                    $('#tennisBeitrag').children().html(cfg['Tennis']['Beitrag'][this.value]);
                 }
             }).change();
 
@@ -218,7 +220,7 @@ $(function() {
         }
     });
 
-    function setFussballGesamt(fussballBeitragPassantrag, fussballBeitragAufnahme, fussballBeitragLfdJahr) {
+    function setFussballGesamt() {
         gesamtBeitragFussball = fussballBeitragPassantrag + fussballBeitragAufnahme + fussballBeitragLfdJahr;
         $('#fussballBeitragGesamt').children().html(gesamtBeitragFussball);
     }
