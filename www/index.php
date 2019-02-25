@@ -29,9 +29,12 @@ $antrag = new \classes\antrag($config);
 Flight::route('POST /antrag', array($antrag, 'post'));
 Flight::route('POST /antrag/2', array($antrag, 'post2'));
 Flight::route('POST /antrag/3', array($antrag, 'post3'));
+Flight::route('POST /antrag/4', array($antrag, 'post4'));
 Flight::route('/antrag', array($antrag, 'index'));
 Flight::route('/antrag/2', array($antrag, 'index2'));
 Flight::route('/antrag/3', array($antrag, 'index3'));
 Flight::route('/antrag/4', array($antrag, 'index4'));
+Flight::route('/antrag/abschluss', array($antrag, 'abschluss'));
+Flight::route('/antrag/bestaetigung', array($antrag, 'bestaetigung'));
 
 Flight::start();
