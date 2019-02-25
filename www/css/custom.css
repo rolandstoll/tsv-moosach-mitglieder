@@ -3,6 +3,16 @@
     #nav1, #nav2, #breadcrumb, #footer, #footer-bottom, #progress, .needs-validation, #advertising {
         display: none;
     }
+    #main {
+        box-shadow: none;
+    }
+}
+
+/* online */
+@media only screen {
+    #main {
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
 }
 
 /* tsv moosach*/

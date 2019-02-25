@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<div class="container shadow-lg">
+<div id="main" class="container">
     <?php echo $header_content; ?>
     <?php echo $body_content; ?>
     <?php echo $footer_content; ?>
