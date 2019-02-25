@@ -60,7 +60,7 @@
         <hr>
         <p class="lead">Gläubiger-ID / Mandats-Referenznummer:</p>
         <div class="row">
-            <div class="col-md-6 font-weight-bold">Unsere Gläubiger ID im SEPA Lastschriftverfahren:</div><div class="col-md-6">DE04 ZZZ 00000453566</div>
+            <div class="col-md-6 font-weight-bold">Unsere Gläubiger ID im SEPA Lastschriftverfahren:</div><div class="col-md-6">DE04 ZZZ0 0000 4535 66</div>
             <div class="col-md-6 font-weight-bold">Ihre Mandats-Referenznummer:</div><div class="col-md-6"><?= $data['mandats_referenznummer']; ?></div>
         </div>
 
@@ -69,7 +69,7 @@
         <div class="row">
             <div class="col-md-6 font-weight-bold">Kontoinhaber Nachname, Vorname:</div><div class="col-md-6"><?= $data['konto_nachname']; ?>, <?= $data['konto_vorname']; ?></div>
             <div class="col-md-6 font-weight-bold">Kreditinstitut:</div><div class="col-md-6"><?= $data['konto_kreditinstitut']; ?></div>
-            <div class="col-md-6 font-weight-bold">IBAN:</div><div class="col-md-6"><?= $data['konto_ibant']; ?></div>
+            <div class="col-md-6 font-weight-bold">IBAN:</div><div class="col-md-6"><?= $data['konto_iban']; ?></div>
             <div class="col-md-6 font-weight-bold">BIC:</div><div class="col-md-6"><?= $data['konto_bic']; ?></div>
         </div>
 
@@ -81,9 +81,25 @@
             <div class="col-md-9 font-weight-bold">Zustimmung Vereinssatzungen, Statuten des BLSV und Lastschrift-Einzugsermächtigung auf SEPA-Basis</div><div class="col-md-3"><?= (isset($_SESSION['zustimmung'])) ? 'ja' : 'nein';?></div>
         </div>
     </div>
+
+    <form id="myForm" method="POST" class="row m-12" novalidate>
+        <input type="hidden" id="token" name="token">
+    </form>
 </div>
 
-<form method="POST" class="row m-3 p-0 needs-validation" novalidate>
-    <button onclick="window.print();" class="btn btn-success mt-3" type="submit"><ion-icon name="print"></ion-icon> Antrag ausdrucken</button>
-    <button class="btn btn-primary mt-3 ml-3" type="submit">Antrag absenden</button>
-</form>
+<div class="row p-3">
+    <button onclick="window.print();" class="btn btn-success mt-3"><ion-icon name="print"></ion-icon> Antrag ausdrucken</button>
+    <button onclick="submitForm();" class="btn btn-primary mt-3 ml-3">Antrag absenden</button>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe"></script>
+<script>
+    function recaptchexec() {
+        grecaptcha.execute('6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe', {action: 'antrag'}).then(function(token) {
+            console.log(token);
+            $('#token').val(token);
+            $('#myForm').submit();
+        });
+    }
+</script>
+

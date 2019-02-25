@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<form method="POST" class="row m-3 p-0 needs-validation" novalidate>
+<form id="myForm" method="POST" class="row m-3 p-0 needs-validation" novalidate>
     <div class="col-md-12 bg-light font-weight-bold p-2 mb-1 mt-3">ABTEILUNGEN</div>
     <div class="col-md-12 font-weight-bold mb-2">
         Ich möchte als Mitglied in folgender/n Abteilung(en) beitreten:
@@ -203,27 +203,9 @@
     }
     ?>
 
-    <button class="btn btn-primary mt-3" type="submit">weiter zur Bankverbindung</button>
+    <input type="hidden" id="token" name="token">
 </form>
 
-
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+<div class="row p-3">
+    <button onclick="submitForm();" class="btn btn-primary mt-3">weiter zur Bankverbindung</button>
+</div>

@@ -12,7 +12,7 @@ services:
     ports:
       - "9906:3306"
   web:
-    build: ./
+    build: ./docker/
     container_name: tsvm_php_web
     depends_on:
       - db

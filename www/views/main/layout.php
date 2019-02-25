@@ -30,6 +30,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe"></script>
 
 <!-- Custom js -->
 <script src="/js/custom.js" language="JavaScript"></script>

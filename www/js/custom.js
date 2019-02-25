@@ -225,7 +225,7 @@ $(function() {
         $('#fussballBeitragGesamt').children().html(gesamtBeitragFussball);
     }
 
-})
+});
 
 function calculateAge(birthday) { // birthday = date object
     var ageDifMs = Date.now() - birthday.getTime();
@@ -235,4 +235,19 @@ function calculateAge(birthday) { // birthday = date object
 
 function isValidDate(d) {
     return d instanceof Date && !isNaN(d);
+}
+
+function submitForm() {
+    $('#myForm')[0].classList.add('was-validated');
+
+    if ($('#myForm')[0].checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+    } else {
+        grecaptcha.execute('6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe', {action: 'antrag'}).then(function(token) {
+            $('#token').val(token);
+            $('#myForm').submit();
+        });
+    }
+
 }

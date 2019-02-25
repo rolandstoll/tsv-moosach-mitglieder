@@ -36,6 +36,8 @@ class antrag
         $this->gesamtNext = 0;
         $this->beitrag = array();
         $this->extras = array();
+
+        $this->secretKey = "6Lcrd5MUAAAAAGaS5wM4IiNpnEOMzRKTLR5Oi_WY";
     }
 
     /**
@@ -70,15 +72,24 @@ class antrag
      */
     public function post()
     {
-        foreach (\Flight::request()->data as $key => $val) {
-            if ($key == 'datenschutz') {
-                $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
-            } else {
-                $_SESSION[$key] = \Flight::request()->data->$key;
-            }
-        }
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
 
-        \Flight::redirect('/antrag/2');
+        var_dump($responseKeys);
+
+        if($responseKeys["success"]) {
+            foreach (\Flight::request()->data as $key => $val) {
+                if ($key == 'datenschutz') {
+                    $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
+                } else {
+                    $_SESSION[$key] = \Flight::request()->data->$key;
+                }
+            }
+
+            \Flight::redirect('/antrag/2');
+        }
     }
 
     /**
@@ -120,26 +131,33 @@ class antrag
      */
     public function post2()
     {
-        unset($_SESSION['abteilung']);              // reset
-        unset($_SESSION['zustimmung_fussball']);    // reset
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
 
-        foreach (\Flight::request()->data as $key => $val) {
-            if ($val == 'on') {
-                if ($key == 'zustimmung_fussball') {
-                    $_SESSION[$key] = true;
+        if($responseKeys["success"]) {
+            unset($_SESSION['abteilung']);              // reset
+            unset($_SESSION['zustimmung_fussball']);    // reset
+
+            foreach (\Flight::request()->data as $key => $val) {
+                if ($val == 'on') {
+                    if ($key == 'zustimmung_fussball') {
+                        $_SESSION[$key] = true;
+                    } else {
+                        $_SESSION['abteilung'][$key] = true;
+                    }
                 } else {
-                    $_SESSION['abteilung'][$key] = true;
-                }
-            } else {
-                if (empty(\Flight::request()->data->$key)) {
-                    unset($_SESSION[$key]);
-                } else {
-                    $_SESSION[$key] = \Flight::request()->data->$key;
+                    if (empty(\Flight::request()->data->$key)) {
+                        unset($_SESSION[$key]);
+                    } else {
+                        $_SESSION[$key] = \Flight::request()->data->$key;
+                    }
                 }
             }
-        }
 
-        \Flight::redirect('/antrag/3');
+            \Flight::redirect('/antrag/3');
+        }
     }
 
     /**
@@ -183,21 +201,34 @@ class antrag
      */
     public function post3()
     {
-        unset($_SESSION['zustimmung']);    // reset
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
 
-        foreach (\Flight::request()->data as $key => $val) {
-            if ($key == 'zustimmung') {
-                $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
-            } else {
-                if (empty(\Flight::request()->data->$key)) {
-                    unset($_SESSION[$key]);
+        if($responseKeys["success"]) {
+            unset($_SESSION['zustimmung']);    // reset
+
+            foreach (\Flight::request()->data as $key => $val) {
+                if ($key == 'zustimmung') {
+                    $_SESSION[$key] = is_null(\Flight::request()->data->$key) ? false : true;
                 } else {
-                    $_SESSION[$key] = \Flight::request()->data->$key;
+                    if (empty(\Flight::request()->data->$key)) {
+                        unset($_SESSION[$key]);
+                    } else {
+                        if (in_array($key, array('mandats_referenznummer'))) {
+                            $_SESSION[$key] = str_replace(' ', '', \Flight::request()->data->$key);
+                        } else if (in_array($key, array('konto_iban', 'konto_bic'))) {
+                            $_SESSION[$key] =  strtoupper(\Flight::request()->data->$key);
+                        } else {
+                            $_SESSION[$key] = \Flight::request()->data->$key;
+                        }
+                    }
                 }
             }
-        }
 
-        \Flight::redirect('/antrag/4');
+            \Flight::redirect('/antrag/4');
+        }
     }
 
     /**
@@ -226,6 +257,77 @@ class antrag
         \Flight::view()->set('gesamtNext', $this->gesamtNext);
         \Flight::view()->set('data', $_SESSION);
         \Flight::view()->set('abteilungen', $this->abteilungen);
+
+        // final render
+        \Flight::render('main/header', $header, 'header_content');
+        \Flight::render($template, array(), 'body_content');
+        \Flight::render('main/footer', array(), 'footer_content');
+        \Flight::render('main/layout');
+    }
+
+    /**
+     *
+     */
+    public function post4()
+    {
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
+
+        if($responseKeys["success"]) {
+
+            // send mail to customer
+            mailer::sendValidation($_SESSION['email'], $_SESSION);
+
+            //\Flight::redirect('/antrag/abschluss');
+        }
+    }
+
+    /**
+     *
+     */
+    public function abschluss()
+    {
+        $template = 'antrag_abschluss';
+        $page_title = 'TSVM MMS Neuantrag';
+        $header = array(
+            'title' => 'TSVM MMS Neuantrag',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Mitgliedschaft' => '#',
+                'Neuantrag' => '#'
+            )
+        );
+
+        // page data
+        \Flight::view()->set('head_title', $page_title);
+
+        // final render
+        \Flight::render('main/header', $header, 'header_content');
+        \Flight::render($template, array(), 'body_content');
+        \Flight::render('main/footer', array(), 'footer_content');
+        \Flight::render('main/layout');
+    }
+
+    /**
+     *
+     */
+    public function bestaetigung()
+    {
+        $template = 'antrag_abschluss';
+        $page_title = 'TSVM MMS Neuantrag';
+        $header = array(
+            'title' => 'TSVM MMS Neuantrag',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Mitgliedschaft' => '#',
+                'Neuantrag' => '#'
+            )
+        );
+
+        // page data
+        \Flight::view()->set('head_title', $page_title);
 
         // final render
         \Flight::render('main/header', $header, 'header_content');

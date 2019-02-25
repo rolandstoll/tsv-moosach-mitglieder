@@ -1,0 +1,60 @@
+Hallo $vorname$ $nachname$!
+
+Vielen Dank für deinen Mitgliedsantrag!
+Folgende Daten haben wir von Ihnen erhalten:
+
+PERSÖNLICHE DATEN:
+Name, Vorname:      $nachname$, $vorname$
+Geburtsdatum:       $geburtsdatum$
+Alter:              $alter$
+Geburtsort:         $geburtsort$
+Straße / Hausnr.:   $strasse$ $hausnr$
+PLZ / Ort:          $plz$ $ort$
+Telefon:            $telefon$
+Handy:              $handy$
+E-Mail:             $email$
+
+AUSGEWÄHLTE ABTEILUNGEN:
+$abteilungen$
+
+Jahresgebühr (lfd. Jahr):       $beitragGesamt$
+Jahresgebühr (folg. Jahr):      $beitragFolge$
+
+WEITERE ANGABEN:
+$weitereAngaben$
+
+MANDATS-REFERENZNUMMER:
+Unsere Gläubiger-ID (SEPA)      DE04 ZZZ0 0000 4535 66
+Ihre Mandats-RefNr.:            $mandats_referenznummer$
+
+BANKVERBINDUNG:
+Konto-Inhaber:      $konto_nachname$, $konto_vorname$
+Kreditinstitut:     $konto_kreditinstitut$
+IBAN:               $konto_iban$
+BIC:                $konto_bic$
+
+ZUSTIMMUNGEN
+Datenschutz / Persönlichkeitsrechte anerkannt: $datenschutz$
+Fußball: Adressdaten Nutzungszustimmung für Marketingzwecke: $zustimmung_fussball$
+Zustimmung Vereinssatzungen, Statuten des BLSV und Lastschrift-Einzugsermächtigung auf SEPA-Basis: $zustimmung$
+
+
+
+Wir versuchen nach bestem Wissen und Gewissen unsere Website und Dienste vor Missbrauch zu schützen.
+Darum erhalten Sie diese Mail, um Ihren Mitgliedsantrag persönlich zu verifizieren, indem Sie folgenden Link öffnen:
+http://localhost:8001/antrag/bestaetigung?hash=123456789123456
+
+Danach wird Ihr Antrag aktiviert und kann von uns bearbeitet werden. Bitte geben Sie uns dazu bitte ein paar Tage Zeit.
+
+Falls Sie diese Mail fälschlicher Weise erhalten, nehmen Sie bitte Kontakt mit uns auf:
+http://www.tsvmoosach.de/kontakt/
+
+
+Viele Grüße und vielen Danke,
+Ihr TSV Moosach-Hartmannshofen
+
+--------------------------
+TSV Moosach-Hartmannshofen
+Lechelstr. 35
+80997 München
+http://www.tsvmoosach.de
