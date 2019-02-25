@@ -5,7 +5,7 @@ services:
     image: mysql
     container_name: tsvm_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: roowpwd
+      MYSQL_ROOT_PASSWORD: rootpwd
       MYSQL_DATABASE: db
       MYSQL_USER: user
       MYSQL_PASSWORD: pwd
