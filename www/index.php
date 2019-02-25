@@ -10,22 +10,21 @@ function autoloader($class)
 
 spl_autoload_register('autoloader');
 
-// load config
+// load configs
 $json = file_get_contents("config.json");
 $config = json_decode($json, true);
+$json = file_get_contents("system.json");
+$system = json_decode($json, true);
 
-//$con = mysqli_connect(
-//    $config->database->host,
-//    $config->database->user,
-//    $config->database->password,
-//    $config->database->dbname
-//);
+// registrations
+Flight::register('db', 'PDO', array('mysql:host=' . $system['host'] . ';dbname=' . $system['db'], $system['user'], $system['password'] ));
+Flight::register('mailer', 'mailer');
 
 // routes
-$index = new \classes\index($config);
+$index = new \classes\index($system, $config);
 Flight::route('/', array($index, 'index'));
 
-$antrag = new \classes\antrag($config);
+$antrag = new \classes\antrag($system, $config);
 Flight::route('POST /antrag', array($antrag, 'post'));
 Flight::route('POST /antrag/2', array($antrag, 'post2'));
 Flight::route('POST /antrag/3', array($antrag, 'post3'));

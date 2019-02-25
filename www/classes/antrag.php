@@ -12,11 +12,14 @@ class antrag
 {
     /**
      * antrag constructor.
+     * @param   array $system json config
      * @param   array $config json config
      */
-    public function __construct($config)
+    public function __construct($system, $config)
     {
         session_start();
+
+        $this->system = $system;
 
         if (isset($_SESSION['alter'])) {
             if ($_SESSION['alter'] < 6) {
@@ -31,13 +34,11 @@ class antrag
         }
 
         $this->abteilungen = $config['abteilungen'];
-
         $this->gesamt = 0;
         $this->gesamtNext = 0;
         $this->beitrag = array();
         $this->extras = array();
-
-        $this->secretKey = "6Lcrd5MUAAAAAGaS5wM4IiNpnEOMzRKTLR5Oi_WY";
+        $this->secretKey = $this->system['recaptcha']['api_secret'];
     }
 
     /**
@@ -275,13 +276,24 @@ class antrag
         $response = file_get_contents($url);
         $responseKeys = json_decode($response,true);
 
+        $data = $_SESSION;
+        $data['server'] = 'http://'. $_SERVER['HTTP_HOST']; //TODO: change to https!!!
+        $data['hash'] = bin2hex(random_bytes(32));
+
+
         if($responseKeys["success"]) {
 
             // send mail to customer
-            mailer::sendValidation($_SESSION['email'], $_SESSION);
+            mailer::sendValidation($data['email'], $data);
 
-            //\Flight::redirect('/antrag/abschluss');
+            // store data in db
+
+
+            //\Flight::redirect('/antrag/abschluss'); //TODO: un-comment this!
         }
+
+        // kill the session
+        //session_destroy();
     }
 
     /**
