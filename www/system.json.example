@@ -3,7 +3,7 @@
     "host" : "",
     "user" : "",
     "password": "",
-    "dbname":""
+    "db":""
   },
   "recaptcha":{
     "api_secret": ""

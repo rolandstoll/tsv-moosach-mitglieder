@@ -28,13 +28,14 @@ class mailer
                   'Reply-To: info@tsvmoosach.de' . "\r\n" .
                   'X-Mailer: PHP/' . phpversion();
 
-        $return = mail($recipient, $subject, $body, $header);
-        var_dump($return);
+        mail($recipient, $subject, $body, $header);
+        // echo nl2br($body);
     }
 
     /**
      * @param $template
      * @param $data
+     * @return string
      */
     static function getTemplate($template, $data)
     {
@@ -43,5 +44,7 @@ class mailer
         foreach ($data as $key => $val) {
             $body = str_replace('$'.$key.'$', $val, $body);
         }
+
+        return $body;
     }
 }

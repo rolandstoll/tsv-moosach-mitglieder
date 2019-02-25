@@ -17,12 +17,12 @@ $json = file_get_contents("system.json");
 $system = json_decode($json, true);
 
 // registrations
-Flight::register('db', 'PDO', array('mysql:host=' . $system['host'] . ';dbname=' . $system['db'], $system['user'], $system['password'] ));
-Flight::register('mailer', 'mailer');
+Flight::register('db', '\classes\db', array('mysql:host=' . $system['database']['host'] . ';dbname=' . $system['database']['dbname'], $system['database']['user'], $system['database']['password']));
 
 // routes
 $index = new \classes\index($system, $config);
 Flight::route('/', array($index, 'index'));
+Flight::route('/test', array($index, 'test'));
 
 $antrag = new \classes\antrag($system, $config);
 Flight::route('POST /antrag', array($antrag, 'post'));

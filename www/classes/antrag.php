@@ -278,18 +278,20 @@ class antrag
 
         $data = $_SESSION;
         $data['server'] = 'http://'. $_SERVER['HTTP_HOST']; //TODO: change to https!!!
-        $data['hash'] = bin2hex(random_bytes(32));
+        $data['hash'] = md5(bin2hex(random_bytes(32)));
 
 
         if($responseKeys["success"]) {
 
             // send mail to customer
-            mailer::sendValidation($data['email'], $data);
+            // mailer::sendValidation($data['email'], $data); //TODO: un-comment this!
 
             // store data in db
+            $db = \Flight::db();
+            $db->createAntrag($data);
 
 
-            //\Flight::redirect('/antrag/abschluss'); //TODO: un-comment this!
+            \Flight::redirect('/antrag/abschluss');
         }
 
         // kill the session
