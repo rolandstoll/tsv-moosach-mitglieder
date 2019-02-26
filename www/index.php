@@ -17,7 +17,11 @@ $json = file_get_contents("system.json");
 $system = json_decode($json, true);
 
 // registrations
-Flight::register('db', '\classes\db', array('mysql:host=' . $system['database']['host'] . ';dbname=' . $system['database']['dbname'], $system['database']['user'], $system['database']['password']));
+Flight::register('db', '\classes\db', array(
+    'mysql:host=' . $system['database']['host'] . ';dbname=' . $system['database']['dbname'],
+    $system['database']['user'],
+    $system['database']['password']
+));
 
 // routes
 $index = new \classes\index($system, $config);
