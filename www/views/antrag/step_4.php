@@ -6,7 +6,7 @@
 
 <div id="progress" class="row p-3">
     <ul class="list-group list-group-horizontal-md pl-3 col-md-12">
-        <li class="w-25 list-group-item bg-secondary font-weight-bold"><a href="/antrag" class="text-white">Persönliche Daten</a></li>
+        <li class="w-25 list-group-item bg-secondary font-weight-bold"><a href="../../index.php" class="text-white">Persönliche Daten</a></li>
         <li class="w-25 list-group-item bg-secondary font-weight-bold"><a href="/antrag/2" class="text-white">Auswahl Abteilungen</a></li>
         <li class="w-25 list-group-item bg-secondary font-weight-bold"><a href="/antrag/3" class="text-white">Bankverbindung</a></li>
         <li class="w-25 list-group-item active font-weight-bold">Zusammenfassung</li>

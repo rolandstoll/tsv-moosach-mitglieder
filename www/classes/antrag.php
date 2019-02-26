@@ -46,7 +46,7 @@ class antrag
      */
     public function index()
     {
-        $template = 'antrag_1';
+        $template = 'antrag/step_1';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
@@ -98,7 +98,7 @@ class antrag
      */
     public function index2()
     {
-        $template = 'antrag_2';
+        $template = 'antrag/step_2';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
@@ -168,7 +168,7 @@ class antrag
     {
         session_start();
 
-        $template = 'antrag_3';
+        $template = 'antrag/step_3';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
@@ -237,7 +237,7 @@ class antrag
      */
     public function index4()
     {
-        $template = 'antrag_4';
+        $template = 'antrag/step_4';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
@@ -303,7 +303,7 @@ class antrag
      */
     public function abschluss()
     {
-        $template = 'antrag_abschluss';
+        $template = 'antrag/abschluss';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
@@ -329,7 +329,7 @@ class antrag
      */
     public function bestaetigung()
     {
-        $template = 'antrag_abschluss';
+        $template = 'antrag/verifizierung';
         $page_title = 'TSVM MMS Neuantrag';
         $header = array(
             'title' => 'TSVM MMS Neuantrag',
