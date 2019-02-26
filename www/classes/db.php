@@ -40,8 +40,6 @@ class db
         $stmt->bindParam(':data', json_encode($data));
         $stmt->bindParam(':hash', $data['hash']);
 
-        var_dump($stmt);
-
         try {
             $stmt->execute();
         } catch (PDOException $e) {
@@ -51,17 +49,24 @@ class db
         $stmt = NULL;
     }
 
-    public function getAntrag($data)
+    public function getAntraege($status)
     {
-//        $sql = 'SELECT name, colour, calories
-//                FROM fruit
-//                WHERE calories < :calories AND colour = :colour';
-//        $params = array(':calories' => 150, ':colour' => 'red');
-//
-//
-//        $sth = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-//        $sth->execute($params);
-//
-//        $red = $sth->fetchAll();
+        $stmt = $this->dbh->prepare(
+            'SELECT *
+             FROM antraege
+             WHERE status = :status'
+        );
+
+        $stmt->bindParam(':status', $status);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetchAll();
+        $stmt = NULL;
+        return $data;
     }
 }

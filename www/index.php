@@ -40,8 +40,8 @@ Flight::route('/antrag/4', array($antrag, 'index4'));
 Flight::route('/antrag/abschluss', array($antrag, 'abschluss'));
 Flight::route('/antrag/bestaetigung', array($antrag, 'bestaetigung'));
 
-$admin = new \classes\index($system, $config);
-Flight::route('/', array($admin, 'login'));
-Flight::route('/', array($admin, 'dashboard'));
+$admin = new \classes\admin($system, $config);
+Flight::route('/admin/login', array($admin, 'login'));
+Flight::route('/admin/dashboard', array($admin, 'dashboard'));
 
 Flight::start();
