@@ -91,15 +91,3 @@
     <button onclick="window.print();" class="btn btn-success mt-3"><ion-icon name="print"></ion-icon> Antrag ausdrucken</button>
     <button onclick="submitForm();" class="btn btn-primary mt-3 ml-3">Antrag absenden</button>
 </div>
-
-<script src="https://www.google.com/recaptcha/api.js?render=6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe"></script>
-<script>
-    function recaptchexec() {
-        grecaptcha.execute('6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe', {action: 'antrag'}).then(function(token) {
-            console.log(token);
-            $('#token').val(token);
-            $('#myForm').submit();
-        });
-    }
-</script>
-

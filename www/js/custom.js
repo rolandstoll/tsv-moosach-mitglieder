@@ -244,7 +244,7 @@ function submitForm() {
         event.preventDefault();
         event.stopPropagation();
     } else {
-        grecaptcha.execute('6Lcrd5MUAAAAAFMStxqwSSVCveABb0rWqHfFdofe', {action: 'antrag'}).then(function(token) {
+        grecaptcha.execute('6LclCZQUAAAAAHjogcuRirr1NYGLyy1LX1t0vZJI', {action: 'antrag'}).then(function(token) {
             $('#token').val(token);
             $('#myForm').submit();
         });
