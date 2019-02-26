@@ -13,7 +13,7 @@ spl_autoload_register('autoloader');
 // load configs
 $json = file_get_contents("config.json");
 $config = json_decode($json, true);
-$json = file_get_contents("system.json");
+include_once ("system.php");
 $system = json_decode($json, true);
 
 // registrations
@@ -39,5 +39,9 @@ Flight::route('/antrag/3', array($antrag, 'index3'));
 Flight::route('/antrag/4', array($antrag, 'index4'));
 Flight::route('/antrag/abschluss', array($antrag, 'abschluss'));
 Flight::route('/antrag/bestaetigung', array($antrag, 'bestaetigung'));
+
+$admin = new \classes\index($system, $config);
+Flight::route('/', array($admin, 'login'));
+Flight::route('/', array($admin, 'dashboard'));
 
 Flight::start();

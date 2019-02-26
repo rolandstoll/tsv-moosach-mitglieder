@@ -1,3 +1,5 @@
+<?php
+$json = '
 {
   "database" : {
     "host" : "",
@@ -9,3 +11,4 @@
     "api_secret": ""
   }
 }
+';
