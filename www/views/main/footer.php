@@ -17,7 +17,7 @@
     </div>
 
     <div id="footer-bottom" class="row text-light">
-        <div class="col-md-4 text-secondary">TSV Moosach Hartmannshofen 2018</div>
+        <div class="col-md-4 text-secondary">TSV Moosach Hartmannshofen <?= date('Y'); ?></div>
         <div class="col-md-8 text-right">
             <a href="http://www.tsvmoosach.de/impressum/">Impressum</a>
             <a href="http://www.tsvmoosach.de/datenschutzerklaerung/">Datenschutzerklärung</a>
