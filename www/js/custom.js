@@ -5,6 +5,10 @@ $(function() {
     var fussballBeitragAufnahme = 0;
     var fussballBeitragLfdJahr = 0;
 
+    if (typeof age !== 'undefined'){
+        var age = 18;
+    }
+
     // get config
     var cfg = {};
     $.ajax({
@@ -224,6 +228,9 @@ $(function() {
         gesamtBeitragFussball = fussballBeitragPassantrag + fussballBeitragAufnahme + fussballBeitragLfdJahr;
         $('#fussballBeitragGesamt').children().html(gesamtBeitragFussball);
     }
+
+    // activate tooltips
+    $('[data-toggle="tooltip"]').tooltip();
 
 });
 
