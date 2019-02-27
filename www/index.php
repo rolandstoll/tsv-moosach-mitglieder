@@ -43,5 +43,6 @@ Flight::route('/antrag/bestaetigung', array($antrag, 'bestaetigung'));
 $admin = new \classes\admin($system, $config);
 Flight::route('/admin/login', array($admin, 'login'));
 Flight::route('/admin/dashboard', array($admin, 'dashboard'));
+Flight::route('/admin/detail/@id', array($admin, 'detail'));
 
 Flight::start();

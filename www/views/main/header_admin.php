@@ -5,7 +5,11 @@
     <div id="title" class="col-md-8 bg-light">
         <p class="text-center"><?= $title ?></p>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <strong>Roland Stoll</strong><br>
+        Rolle: Admin<br>
+        <button onclick="" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left" title="Abmelden"><ion-icon name="log-out"></ion-icon> Abmelden</button>
+    </div>
 </div>
 
 <div id="breadcrumb" class="row bg-light">

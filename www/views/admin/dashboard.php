@@ -1,9 +1,9 @@
 <?php setlocale(LC_TIME, "de_DE.utf8"); ?>
 
-<div class="row p-3">
-    <table class="table table-striped table-hover">
+<div class="row">
+    <table class="table table-striped table-hover table-dark m-0">
         <thead>
-        <tr class="bg-green text-white">
+        <tr class="bg-dark text-white">
             <th scope="col">#</th>
             <th scope="col">Nachname</th>
             <th scope="col">Vorname</th>
@@ -27,14 +27,28 @@
                 <?php
                 if (isset($json->abteilung)) {
                     foreach ($json->abteilung as $key => $val) {
-                        echo '- ' . $key . ' <ion-icon name="checkmark-circle" style="color:green;"></ion-icon><br>';
+                        echo '- ' . $abteilungen[$key] . ' ';
+                        switch ($val) {
+                            case 'pending':
+                                echo '<ion-icon name="help-circle" style="color:grey;"></ion-icon>';
+                                break;
+                            case 'accepted':
+                                echo '<ion-icon name="checkmark-circle" style="color:green;"></ion-icon>';
+                                break;
+                            default:
+                                echo '<ion-icon name="close-circle" style="color:red;"></ion-icon><br>';
+                        }
+                        echo '<br>';
                     }
-                    echo '- test <ion-icon name="close-circle" style="color:red;"></ion-icon><br>';
                 }
                 ?>
             </td>
             <td><?= date('d.m.Y H:i', strtotime($item['created'])); ?> Uhr</td>
-            <td><button onclick="" class="btn btn-success"><ion-icon name="create"></ion-icon></button></td>
+            <td>
+                <button onclick="location.href = '/admin/detail/<?= $item["id"]; ?>'; " class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Bearbeiten">
+                    <ion-icon name="create"></ion-icon>
+                </button>
+            </td>
         </tr>
         <?php } ?>
         </tbody>

@@ -69,4 +69,28 @@ class db
         $stmt = NULL;
         return $data;
     }
+
+    public function getAntrag($id, $status)
+    {
+        $stmt = $this->dbh->prepare(
+            'SELECT data
+             FROM antraege
+             WHERE id = :id 
+               AND status = :status
+             LIMIT 1'
+        );
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':status', $status);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetch();
+        $stmt = NULL;
+        return json_decode($data['data'], true);
+    }
 }
