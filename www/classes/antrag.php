@@ -288,14 +288,16 @@ class antrag
 
             // store data in db
             $db = \Flight::db();
+            foreach ($data['abteilung'] as $key => $value) {
+                $data['abteilung'][$key] = 'pending';
+            }
             $db->createAntrag($data);
-
 
             \Flight::redirect('/antrag/abschluss');
         }
 
         // kill the session
-        //session_destroy();
+        session_destroy();
     }
 
     /**
