@@ -258,3 +258,15 @@ function submitForm() {
     }
 
 }
+
+function setAntragAbteilungStatus (abteilung, status) {
+    console.log(abteilung + " / " + status);
+
+    $('#abteilung').val(abteilung);
+    $('#status').val(status);
+
+    grecaptcha.execute('6LclCZQUAAAAAHjogcuRirr1NYGLyy1LX1t0vZJI', {action: 'antrag'}).then(function(token) {
+        $('#token').val(token);
+        $('#myForm').submit();
+    });
+}

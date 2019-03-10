@@ -3,7 +3,7 @@
 <div class="row">
     <table class="table table-striped table-hover table-dark m-0">
         <thead>
-        <tr class="bg-dark text-white">
+        <tr class="bg-black text-white">
             <th scope="col">#</th>
             <th scope="col">Nachname</th>
             <th scope="col">Vorname</th>
@@ -15,37 +15,37 @@
         </thead>
         <tbody>
         <?php
-        foreach($data as $item) {
-            $json = json_decode($item['data']);
+        foreach($antraege as $antrag) {
+            $data = json_decode($antrag['data'], true);
         ?>
         <tr>
-            <th scope="row"><?= $item['id']; ?></th>
-            <td><?= $item['nachname']; ?></td>
-            <td><?= $item['vorname']; ?></td>
-            <td><?= $item['email']; ?></td>
+            <th scope="row"><?= $antrag['id']; ?></th>
+            <td><?= $antrag['nachname']; ?></td>
+            <td><?= $antrag['vorname']; ?></td>
+            <td><?= $antrag['email']; ?></td>
             <td>
                 <?php
-                if (isset($json->abteilung)) {
-                    foreach ($json->abteilung as $key => $val) {
+                if (isset($data['abteilung'])) {
+                    foreach ($data['abteilung'] as $key => $val) {
                         echo '- ' . $abteilungen[$key] . ' ';
-                        switch ($val) {
-                            case 'pending':
-                                echo '<ion-icon name="help-circle" style="color:grey;"></ion-icon>';
+                        switch ($abteilungStatus[$antrag['id']][$key]) {
+                            case 'declined':
+                                echo '<ion-icon name="close-circle" style="color:red;"></ion-icon><br>';
                                 break;
                             case 'accepted':
                                 echo '<ion-icon name="checkmark-circle" style="color:green;"></ion-icon>';
                                 break;
                             default:
-                                echo '<ion-icon name="close-circle" style="color:red;"></ion-icon><br>';
+                                echo '<ion-icon name="help-circle" style="color:grey;"></ion-icon>';
                         }
                         echo '<br>';
                     }
                 }
                 ?>
             </td>
-            <td><?= date('d.m.Y H:i', strtotime($item['created'])); ?> Uhr</td>
+            <td><?= date('d.m.Y H:i', strtotime($antrag['created'])); ?> Uhr</td>
             <td>
-                <button onclick="location.href = '/admin/detail/<?= $item["id"]; ?>'; " class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Bearbeiten">
+                <button onclick="location.href = '/admin/detail/<?= $antrag["id"]; ?>'; " class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Bearbeiten">
                     <ion-icon name="create"></ion-icon>
                 </button>
             </td>

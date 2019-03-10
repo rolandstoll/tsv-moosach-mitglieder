@@ -78,8 +78,6 @@ class antrag
         $response = file_get_contents($url);
         $responseKeys = json_decode($response,true);
 
-        var_dump($responseKeys);
-
         if($responseKeys["success"]) {
             foreach (\Flight::request()->data as $key => $val) {
                 if ($key == 'datenschutz') {

@@ -26,6 +26,7 @@ class admin
         $this->gesamtNext = 0;
         $this->beitrag = array();
         $this->extras = array();
+        $this->secretKey = $this->system['recaptcha']['api_secret'];
     }
 
     /**
@@ -45,12 +46,32 @@ class admin
         );
 
         $db = \Flight::db();
-        $data = $db->getAntraege('verifiziert');
+        $antraege = $db->getAntraege('verifiziert');
+
+        // get anträge status
+        $abteilungStatus = array();
+        foreach($antraege as $antrag) {
+            $data = json_decode($antrag['data'], true);
+
+            if (isset($data['abteilung'])) {
+                foreach ($data['abteilung'] as $key => $val) {
+                    $item = $db->getAntragAbteilungStatus($antrag['id'], $key);
+
+                    if($item) {
+                        $abteilungStatus[$antrag['id']][$key] = $item['status'];
+                    } else {
+                        $abteilungStatus[$antrag['id']][$key] = 'pending';
+                    }
+
+                }
+            }
+        }
 
         // page data
         \Flight::view()->set('head_title', $page_title);
-        \Flight::view()->set('data', $data);
+        \Flight::view()->set('antraege', $antraege);
         \Flight::view()->set('abteilungen', $this->abteilungen);
+        \Flight::view()->set('abteilungStatus', $abteilungStatus);
 
         // final render
         \Flight::render('main/header_admin', $header, 'header_content');
@@ -71,6 +92,7 @@ class admin
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
                 'Admin' => '#',
+                'Dashboard' => '/admin/dashboard',
                 'Detail' => '#'
             )
         );
@@ -81,7 +103,17 @@ class admin
         $this->getConfigByAge($data['alter']);
         $this->calculatePricesAbteilungen($data);
 
-        //var_dump($data); exit;
+        // get anträge status
+        $abteilungStatus = array();
+        foreach($data['abteilung'] as $key => $val) {
+            $item = $db->getAntragAbteilungStatus($id, $key);
+
+            if($item) {
+                $abteilungStatus[$key] = $item['status'];
+            } else {
+                $abteilungStatus[$key] = 'pending';
+            }
+        }
 
         // page data
         \Flight::view()->set('head_title', $page_title);
@@ -89,14 +121,44 @@ class admin
         \Flight::view()->set('extras', $this->extras);
         \Flight::view()->set('gesamt', $this->gesamt);
         \Flight::view()->set('gesamtNext', $this->gesamtNext);
+        \Flight::view()->set('id', $id);
         \Flight::view()->set('data', $data);
         \Flight::view()->set('abteilungen', $this->abteilungen);
+        \Flight::view()->set('abteilungStatus', $abteilungStatus);
 
         // final render
         \Flight::render('main/header_admin', $header, 'header_content');
         \Flight::render($template, array(), 'body_content');
         \Flight::render('main/footer_admin', array(), 'footer_content');
         \Flight::render('main/layout');
+    }
+
+    /**
+     *
+     */
+    public function detailPost($id)
+    {
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
+
+        if($responseKeys["success"]) {
+
+            // send mail to hauptverein if all abteilungen done
+            // mailer::sendXXXhauptvereinXXX($data['email'], $data); //TODO: un-comment this!
+
+            // store data in db
+            $db = \Flight::db();
+            $data = array();
+            $data['antrag'] = $id;
+            $data['abteilung'] = \Flight::request()->data->abteilung;
+            $data['status'] = \Flight::request()->data->status;
+            $db->setAntragAbteilungStatus($data);
+
+            \Flight::redirect('/admin/detail/' . $id);
+        }
+
     }
 
     /**

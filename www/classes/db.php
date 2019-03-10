@@ -93,4 +93,64 @@ class db
         $stmt = NULL;
         return json_decode($data['data'], true);
     }
+
+
+    public function getAntragAbteilungStatus($antrag, $abteilung)
+    {
+        $stmt = $this->dbh->prepare(
+            'SELECT antrag, abteilung, status
+             FROM antrag_abteilung_status
+             WHERE antrag = :antrag 
+               AND abteilung = :abteilung
+             LIMIT 1'
+        );
+
+        $stmt->bindParam(':antrag', $antrag);
+        $stmt->bindParam(':abteilung', $abteilung);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetch();
+        $stmt = NULL;
+        return $data;
+    }
+
+
+    public function setAntragAbteilungStatus($data)
+    {
+        // try to get existing
+        if ($this->getAntragAbteilungStatus($data['antrag'], $data['abteilung'])) {
+            $stmt = $this->dbh->prepare(
+                'UPDATE antrag_abteilung_status 
+                 SET status = :status, modified = NOW(), modifiedby = :user
+                 WHERE antrag = :antrag
+                   AND abteilung = :abteilung'
+            );
+        } else {
+            $stmt = $this->dbh->prepare(
+                'INSERT INTO antrag_abteilung_status(antrag, abteilung, status, created, createdby) 
+                 VALUES(:antrag, :abteilung, :status, NOW(), :user)'
+            );
+        }
+
+        $user = 'rstoll';   //TODO: change to session user
+
+        $stmt->bindParam(':antrag', $data['antrag']);
+        $stmt->bindParam(':abteilung', $data['abteilung']);
+        $stmt->bindParam(':status', $data['status']);
+        $stmt->bindParam(':user', $user);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $stmt = NULL;
+    }
+
 }
