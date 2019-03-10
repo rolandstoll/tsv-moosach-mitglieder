@@ -153,4 +153,34 @@ class db
         $stmt = NULL;
     }
 
+    /**
+     * get user (login)
+     *
+     * @param $login
+     * @param $password
+     * @return mixed
+     */
+    public function getUser($login, $password) {
+        $stmt = $this->dbh->prepare(
+            'SELECT *
+             FROM user
+             WHERE login = :login 
+               AND password = :password
+             LIMIT 1'
+        );
+
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':password', $password);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetch();
+        $stmt = NULL;
+        return $data;
+    }
+
 }

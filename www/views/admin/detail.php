@@ -86,7 +86,7 @@
         </div>
 
         <p>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
                 weitere Details
             </button>
         </p>
@@ -154,6 +154,10 @@
                 <div class="col-md-3"><?= (isset($_SESSION['zustimmung'])) ? 'ja' : 'nein'; ?></div>
             </div>
         </div>
+
+        <button onclick="location.href = '/admin/dashboard/'" class="btn btn-primary" type="button">
+            zurück
+        </button>
     </div>
 
     <form id="myForm" method="POST" class="row m-12" novalidate>

@@ -19,6 +19,15 @@ class admin
     {
         session_start();
 
+        if (isset($_SESSION['user_login'])) {
+            $this->user['login'] = $_SESSION['user_login'];
+            $this->user['firstname'] = $_SESSION['user_firstname'];
+            $this->user['lastname'] = $_SESSION['user_lastname'];
+            $this->user['roles'] = array('Fußball', 'Tennis', 'Ski');
+        } else {
+            $this->user = array();
+        }
+
         $this->system = $system;
         $this->configAll = $config;
         $this->abteilungen = $config['abteilungen'];
@@ -29,11 +38,79 @@ class admin
         $this->secretKey = $this->system['recaptcha']['api_secret'];
     }
 
+    public function login()
+    {
+        $template = 'admin/login';
+        $page_title = 'Mitgliederverwaltung - Login';
+        $header = array(
+            'title' => 'Mitgliederverwaltung - Login',
+            'breadcrumb' => array(
+                'Home' => 'http://www.tsvmoosach.de',
+                'Admin' => '#',
+                'Login' => '#'
+            )
+        );
+
+        $loginFailed = isset(\Flight::request()->query->loginFailed) ? true : false;
+
+        // page data
+        \Flight::view()->set('head_title', $page_title);
+        \Flight::view()->set('loginFailed', $loginFailed);
+
+        // final render
+        \Flight::render('main/header_admin', $header, 'header_content');
+        \Flight::render($template, array(), 'body_content');
+        \Flight::render('main/footer_admin', array(), 'footer_content');
+        \Flight::render('main/layout');
+    }
+
+    /**
+     *
+     */
+    public function loginPost()
+    {
+        // post request to server
+        $url =  'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($this->secretKey) .  '&response=' . urlencode(\Flight::request()->data->token);
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
+
+        if($responseKeys["success"]) {
+
+            // store data in db
+            $db = \Flight::db();
+            $login = \Flight::request()->data->login;
+            $password = md5(\Flight::request()->data->password);
+            $user = $db->getUser($login, $password);
+
+            if ($user) {
+                $_SESSION['user_login'] = $user['login'];
+                $_SESSION['user_firstname'] = $user['firstname'];
+                $_SESSION['user_lastname'] = $user['lastname'];
+                \Flight::redirect('/admin/dashboard/');
+            } else {
+                \Flight::redirect('/admin/login/?loginFailed');
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    public function logout()
+    {
+        session_destroy();
+
+        \Flight::redirect('/admin/login/');
+    }
+
     /**
      *
      */
     public function dashboard()
     {
+        // check login
+        $this->checkLogin();
+
         $template = 'admin/dashboard';
         $page_title = 'Mitgliederverwaltung - Dashboard';
         $header = array(
@@ -69,6 +146,7 @@ class admin
 
         // page data
         \Flight::view()->set('head_title', $page_title);
+        \Flight::view()->set('user', $this->user);
         \Flight::view()->set('antraege', $antraege);
         \Flight::view()->set('abteilungen', $this->abteilungen);
         \Flight::view()->set('abteilungStatus', $abteilungStatus);
@@ -85,6 +163,9 @@ class admin
      */
     public function detail($id)
     {
+        // check login
+        $this->checkLogin();
+
         $template = 'admin/detail';
         $page_title = 'Mitgliederverwaltung - Antrag';
         $header = array(
@@ -117,6 +198,7 @@ class admin
 
         // page data
         \Flight::view()->set('head_title', $page_title);
+        \Flight::view()->set('user', $this->user);
         \Flight::view()->set('beitrag', $this->beitrag);
         \Flight::view()->set('extras', $this->extras);
         \Flight::view()->set('gesamt', $this->gesamt);
@@ -134,7 +216,7 @@ class admin
     }
 
     /**
-     *
+     * @param integer $id
      */
     public function detailPost($id)
     {
@@ -158,11 +240,10 @@ class admin
 
             \Flight::redirect('/admin/detail/' . $id);
         }
-
     }
 
     /**
-     *
+     * @param array $data
      */
     public function calculatePricesAbteilungen($data)
     {
@@ -205,6 +286,9 @@ class admin
         }
     }
 
+    /**
+     * @param integer $age
+     */
     public function getConfigByAge($age)
     {
         if (isset($age)) {
@@ -217,6 +301,12 @@ class admin
             }
         } else {
             $this->config = $this->configAll['Erwachsener'];
+        }
+    }
+
+    public function checkLogin() {
+        if (! isset($_SESSION['user_login'])) {
+            \Flight::redirect('/admin/login/');
         }
     }
 }

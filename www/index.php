@@ -41,7 +41,9 @@ Flight::route('/antrag/abschluss', array($antrag, 'abschluss'));
 Flight::route('/antrag/bestaetigung', array($antrag, 'bestaetigung'));
 
 $admin = new \classes\admin($system, $config);
+Flight::route('POST /admin/login', array($admin, 'loginPost'));
 Flight::route('/admin/login', array($admin, 'login'));
+Flight::route('/admin/logout', array($admin, 'logout'));
 Flight::route('/admin/dashboard', array($admin, 'dashboard'));
 Flight::route('POST /admin/detail/@id', array($admin, 'detailPost'));
 Flight::route('/admin/detail/@id', array($admin, 'detail'));
