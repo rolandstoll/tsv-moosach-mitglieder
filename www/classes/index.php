@@ -35,13 +35,12 @@ class index
     public function index()
     {
         $template = 'index';
-        $page_title = 'TSVM MMS';
+        $page_title = 'TSV Moosach - Mitgliedschaft';
         $header = array(
-            'title' => 'TSVM MMS',
+            'title' => 'TSV Moosach - Mitgliedschaft',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
-                'Neuantrag' => '#'
+                'Mitgliedschaft' => '#'
             )
         );
         $body = array();

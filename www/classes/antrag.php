@@ -47,12 +47,12 @@ class antrag
     public function index()
     {
         $template = 'antrag/step_1';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Persönliche Daten';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Persönliche Daten',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );
@@ -97,12 +97,12 @@ class antrag
     public function index2()
     {
         $template = 'antrag/step_2';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Auswahl Abteilungen';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Auswahl Abteilungen',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );
@@ -167,12 +167,12 @@ class antrag
         session_start();
 
         $template = 'antrag/step_3';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Bankverbindung';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Bankverbindung',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );
@@ -236,12 +236,12 @@ class antrag
     public function index4()
     {
         $template = 'antrag/step_4';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Zusammenfassung';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Zusammenfassung',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );
@@ -304,12 +304,12 @@ class antrag
     public function abschluss()
     {
         $template = 'antrag/abschluss';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Abschluss';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Abschluss',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );
@@ -330,12 +330,12 @@ class antrag
     public function bestaetigung()
     {
         $template = 'antrag/verifizierung';
-        $page_title = 'TSVM MMS Neuantrag';
+        $page_title = 'Neuantrag - Verifizierung';
         $header = array(
-            'title' => 'TSVM MMS Neuantrag',
+            'title' => 'Neuantrag - Verifizierung',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
-                'Mitgliedschaft' => '#',
+                'Mitgliedschaft' => '/',
                 'Neuantrag' => '#'
             )
         );

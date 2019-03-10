@@ -35,9 +35,9 @@ class admin
     public function dashboard()
     {
         $template = 'admin/dashboard';
-        $page_title = 'TSVM MMS Dashboard';
+        $page_title = 'Mitgliederverwaltung - Dashboard';
         $header = array(
-            'title' => 'TSVM MMS Dashboard',
+            'title' => 'Mitgliederverwaltung - Dashboard',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
                 'Admin' => '#',
@@ -86,9 +86,9 @@ class admin
     public function detail($id)
     {
         $template = 'admin/detail';
-        $page_title = 'TSVM MMS Dashboard';
+        $page_title = 'Mitgliederverwaltung - Antrag';
         $header = array(
-            'title' => 'TSVM MMS Dashboard',
+            'title' => 'Mitgliederverwaltung - Antrag',
             'breadcrumb' => array(
                 'Home' => 'http://www.tsvmoosach.de',
                 'Admin' => '#',
