@@ -5,8 +5,9 @@ $(function() {
     var fussballBeitragAufnahme = 0;
     var fussballBeitragLfdJahr = 0;
 
-    if (typeof age !== 'undefined'){
-        var age = 18;
+    if (typeof age === 'undefined'){
+
+        age = 18;
     }
 
     // get config
@@ -24,6 +25,7 @@ $(function() {
             } else {
                 cfg = data['Erwachsener'];
             }
+
 
             // hauptverein
             $('#hauptverein').on("change",function() {
@@ -125,19 +127,22 @@ $(function() {
             }).change();
 
             $('#tennisTarif').on("change", function() {
-                if (this.value === '') {
+
+                tarif = this.value;
+
+                if (tarif === '') {
                     $('#studentNachweisPanel').hide();
                     $('#studentNachweis').prop('required', false);
                     $('#tennisBeitrag').children().html('--');
                 } else {
-                    if (this.value == 'Student') {
+                    if (tarif === 'Student') {
                         $('#studentNachweisPanel').show();
                         $('#studentNachweis').prop('required', true);
                     } else {
                         $('#studentNachweisPanel').hide();
                         $('#studentNachweis').prop('required', false);
                     }
-                    $('#tennisBeitrag').children().html(cfg['Tennis']['Beitrag'][this.value]);
+                    $('#tennisBeitrag').children().html(cfg['Tennis']['Beitrag'][tarif]);
                 }
             }).change();
 
@@ -260,8 +265,6 @@ function submitForm() {
 }
 
 function setAntragAbteilungStatus (abteilung, status) {
-    console.log(abteilung + " / " + status);
-
     $('#abteilung').val(abteilung);
     $('#status').val(status);
 
