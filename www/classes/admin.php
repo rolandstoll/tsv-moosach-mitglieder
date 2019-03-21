@@ -19,17 +19,28 @@ class admin
     {
         session_start();
 
+        $this->db = \Flight::db();
+
         if (isset($_SESSION['user_login'])) {
             $this->user['login'] = $_SESSION['user_login'];
             $this->user['firstname'] = $_SESSION['user_firstname'];
             $this->user['lastname'] = $_SESSION['user_lastname'];
-            $this->user['roles'] = array('Fußball', 'Tennis', 'Ski');
+            $this->user['roles'] = array();
+
+            $roles = $this->db->getUserRoles($_SESSION['user_id']);
+
+            foreach ($roles as $role) {
+                $this->user['roles'][] = $role['abteilung'];
+            }
+
+
         } else {
             $this->user = array();
         }
 
         $this->system = $system;
         $this->configAll = $config;
+        $this->config = array();
         $this->abteilungen = $config['abteilungen'];
         $this->gesamt = 0;
         $this->gesamtNext = 0;
@@ -77,12 +88,12 @@ class admin
         if($responseKeys["success"]) {
 
             // store data in db
-            $db = \Flight::db();
             $login = \Flight::request()->data->login;
             $password = md5(\Flight::request()->data->password);
-            $user = $db->getUser($login, $password);
+            $user = $this->db->getUser($login, $password);
 
             if ($user) {
+                $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_login'] = $user['login'];
                 $_SESSION['user_firstname'] = $user['firstname'];
                 $_SESSION['user_lastname'] = $user['lastname'];
@@ -122,8 +133,7 @@ class admin
             )
         );
 
-        $db = \Flight::db();
-        $antraege = $db->getAntraege('verifiziert');
+        $antraege = $this->db->getAntraege('verifiziert');
 
         // get anträge status
         $abteilungStatus = array();
@@ -132,7 +142,7 @@ class admin
 
             if (isset($data['abteilung'])) {
                 foreach ($data['abteilung'] as $key => $val) {
-                    $item = $db->getAntragAbteilungStatus($antrag['id'], $key);
+                    $item = $this->db->getAntragAbteilungStatus($antrag['id'], $key);
 
                     if($item) {
                         $abteilungStatus[$antrag['id']][$key] = $item['status'];
@@ -178,8 +188,7 @@ class admin
             )
         );
 
-        $db = \Flight::db();
-        $data = $db->getAntrag($id, 'verifiziert');
+        $data = $this->db->getAntrag($id, 'verifiziert');
 
         $this->getConfigByAge($data['alter']);
         $this->calculatePricesAbteilungen($data);
@@ -187,18 +196,24 @@ class admin
         // get anträge status
         $abteilungStatus = array();
         foreach($data['abteilung'] as $key => $val) {
-            $item = $db->getAntragAbteilungStatus($id, $key);
+            $item = $this->db->getAntragAbteilungStatus($id, $key);
 
             if($item) {
-                $abteilungStatus[$key] = $item['status'];
+                $abteilungStatus[$key]['status'] = $item['status'];
+                $user = $this->db->getUserById($item['createdby']);
+                $abteilungStatus[$key]['username'] = $user['firstname'] . ' ' . $user['lastname'];
+                $abteilungStatus[$key]['date'] = date('d.m.Y, H:i', strtotime($item['created']));
             } else {
-                $abteilungStatus[$key] = 'pending';
+                $abteilungStatus[$key]['status'] = 'pending';
+                $abteilungStatus[$key]['username'] = '';
+                $abteilungStatus[$key]['date'] = '';
             }
         }
 
         // page data
         \Flight::view()->set('head_title', $page_title);
         \Flight::view()->set('user', $this->user);
+        \Flight::view()->set('roles', $this->user['roles']);
         \Flight::view()->set('beitrag', $this->beitrag);
         \Flight::view()->set('extras', $this->extras);
         \Flight::view()->set('gesamt', $this->gesamt);
@@ -231,12 +246,11 @@ class admin
             // mailer::sendXXXhauptvereinXXX($data['email'], $data); //TODO: un-comment this!
 
             // store data in db
-            $db = \Flight::db();
             $data = array();
             $data['antrag'] = $id;
             $data['abteilung'] = \Flight::request()->data->abteilung;
             $data['status'] = \Flight::request()->data->status;
-            $db->setAntragAbteilungStatus($data);
+            $this->db->setAntragAbteilungStatus($data);
 
             \Flight::redirect('/admin/detail/' . $id);
         }

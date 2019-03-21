@@ -15,8 +15,8 @@ class db
     public function __construct($dsn, $user, $password)
     {
         $options = array(
-            PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+            PDO::ATTR_EMULATE_PREPARES => false, // turn off emulation mode for "real" prepared statements
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
         );
 
@@ -98,7 +98,7 @@ class db
     public function getAntragAbteilungStatus($antrag, $abteilung)
     {
         $stmt = $this->dbh->prepare(
-            'SELECT antrag, abteilung, status
+            'SELECT *
              FROM antrag_abteilung_status
              WHERE antrag = :antrag 
                AND abteilung = :abteilung
@@ -137,7 +137,7 @@ class db
             );
         }
 
-        $user = 'rstoll';   //TODO: change to session user
+        $user = $_SESSION['user_id'];
 
         $stmt->bindParam(':antrag', $data['antrag']);
         $stmt->bindParam(':abteilung', $data['abteilung']);
@@ -160,7 +160,8 @@ class db
      * @param $password
      * @return mixed
      */
-    public function getUser($login, $password) {
+    public function getUser($login, $password)
+    {
         $stmt = $this->dbh->prepare(
             'SELECT *
              FROM user
@@ -179,6 +180,62 @@ class db
         }
 
         $data = $stmt->fetch();
+        $stmt = NULL;
+        return $data;
+    }
+
+    /**
+     * get user (login)
+     *
+     * @param $login
+     * @param $password
+     * @return mixed
+     */
+    public function getUserById($id)
+    {
+        $stmt = $this->dbh->prepare(
+            'SELECT *
+             FROM user
+             WHERE id = :id 
+             LIMIT 1'
+        );
+
+        $stmt->bindParam(':id', $id);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetch();
+        $stmt = NULL;
+        return $data;
+    }
+
+    /**
+     * get user roles
+     *
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserRoles($userId)
+    {
+        $stmt = $this->dbh->prepare(
+            'SELECT *
+             FROM roles
+             WHERE user = :userId'
+        );
+
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'PDO execute failed: ' . $e->getMessage();
+        }
+
+        $data = $stmt->fetchAll();
         $stmt = NULL;
         return $data;
     }

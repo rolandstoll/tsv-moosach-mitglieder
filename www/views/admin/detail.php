@@ -46,21 +46,30 @@
                     <td style="font-size: 0.8rem"><?= $extras[$key]; ?></td>
                     <td class="text-right"><?= $beitrag[$key]; ?>.- EUR</td>
                     <?php
-                    switch ($abteilungStatus[$key]) {
+                    switch ($abteilungStatus[$key]['status']) {
                         case 'declined':
                             echo '<td class="text-right">';
-                            echo '<span class="badge badge-danger" data-toggle="tooltip" data-placement="left" data-html="true" title="<h6>Gründe</h6>Hier gab es ein paar Gründe, die aber nicht näher erklärt werden...">Abgelehnt</span>';
+                            echo '<span class="badge badge-danger" data-toggle="tooltip" data-placement="left" data-html="true" 
+                                   title="durch <strong>' . $abteilungStatus[$key]['username'] . '</strong><br>am <em>' . $abteilungStatus[$key]['date'] . ' Uhr</em><br><br><strong>Gründe:</strong><br>und hier sind dann die Gründe für die Ablehnung - natürlich nur optional...">
+                                   Abgelehnt
+                                  </span>';
                             echo '</td>';
                             break;
                         case 'accepted':
                             echo '<td class="text-right">';
-                            echo '<span class="badge badge-success">Angenommen</span>';
+                            echo '<span class="badge badge-success" data-toggle="tooltip" data-placement="left" data-html="true" 
+                                   title="durch <strong>' . $abteilungStatus[$key]['username'] . '</strong><br>am <em>' . $abteilungStatus[$key]['date'] . ' Uhr</em>">
+                                   Angenommen
+                                  </span>';
                             echo '</td>';
                             break;
                         default:
                             echo '<td class="text-right">';
-                            echo '<button onclick="setAntragAbteilungStatus(\'' . $key . '\', \'accepted\');" class="btn btn-success btn-sm mt-1 mr-1" data-toggle="tooltip" data-placement="left" title="Annehmen"><ion-icon name="checkmark-circle"></ion-icon></button>';
-                            echo '<button onclick="setAntragAbteilungStatus(\'' . $key . '\', \'declined\');" class="btn btn-danger btn-sm mt-1 mr-1" data-toggle="tooltip" data-placement="left" title="Ablehnen"><ion-icon name="close-circle"></ion-icon></button>';
+                            if (in_array($key, $roles)) {
+                                echo '<button onclick="" class="btn btn-primary btn-sm mt-1 mr-1" data-toggle="tooltip" data-placement="left" title="Kommentare"><ion-icon name="chatbubbles"></ion-icon></button>';
+                                echo '<button onclick="setAntragAbteilungStatus(\'' . $key . '\', \'accepted\');" class="btn btn-success btn-sm mt-1 mr-1" data-toggle="tooltip" data-placement="left" title="Annehmen"><ion-icon name="checkmark-circle"></ion-icon></button>';
+                                echo '<button onclick="setAntragAbteilungStatus(\'' . $key . '\', \'declined\');" class="btn btn-danger btn-sm mt-1 mr-1" data-toggle="tooltip" data-placement="left" title="Ablehnen"><ion-icon name="close-circle"></ion-icon></button>';
+                            }
                             echo '</td>';
                     }
                     ?>
@@ -87,7 +96,7 @@
 
         <p>
             <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
-                weitere Details
+                Details ein-/ausblenden
             </button>
         </p>
         <div class="collapse" id="collapseDetails">

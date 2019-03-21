@@ -9,7 +9,7 @@
         <?php if (isset($user['login'])) { ?>
         <strong><?= $user['firstname']; ?> <?= $user['lastname']; ?></strong><br>
         <?php foreach($user['roles'] as $key => $val) {
-            echo $val . ' ';
+            echo $abteilungen[$val] . ' ';
         } ?>
         <br>
         <button onclick="location.href = '/admin/logout/'" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left" title="Abmelden"><ion-icon name="log-out"></ion-icon> Abmelden</button>
